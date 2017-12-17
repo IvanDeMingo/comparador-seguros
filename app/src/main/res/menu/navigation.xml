@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/vehiculos"
+        android:icon="@drawable/vehiculo_icono"
+        android:title="@string/vehiculos"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/seguros"
+        android:icon="@drawable/seguro_icono"
+        android:title="@string/seguros"
+        android:enabled="true"/>
+
+    <item
+        android:id="@+id/conductores"
+        android:icon="@drawable/conductor_icono"
+        android:title="@string/conductores"
+        android:enabled="true"/>
+
+</menu>
