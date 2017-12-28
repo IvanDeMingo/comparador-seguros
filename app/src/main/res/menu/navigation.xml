@@ -9,13 +9,13 @@
 
     <item
         android:id="@+id/seguros"
-        android:icon="@drawable/seguro_icono"
+        android:icon="@drawable/ic_seguro_icono"
         android:title="@string/seguros"
         android:enabled="true"/>
 
     <item
         android:id="@+id/conductores"
-        android:icon="@drawable/conductor_icono"
+        android:icon="@drawable/ic_conductor_icono2"
         android:title="@string/conductores"
         android:enabled="true"/>
 
