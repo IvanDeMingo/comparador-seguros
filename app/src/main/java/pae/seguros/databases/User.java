@@ -3,13 +3,15 @@ package pae.seguros.databases;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 
 @Entity
 public class User {
 
     @PrimaryKey
-    public final int dni;
+    @NonNull
+    public final String dni;
     public String name, surname, lastname;
     public String nationality;
     public String birthPlace;
@@ -19,7 +21,7 @@ public class User {
     public long birthday;//EPOCH UNIX TIMESTAMP
     public boolean sex;
 
-    public User(int dni, String name, String surname, String lastname, String nationality, String birthPlace,
+    public User(String dni, String name, String surname, String lastname, String nationality, String birthPlace,
                 String home, String address, int CAN, long birthday, boolean sex) {
         this.dni          = dni;
         this.name         = name;

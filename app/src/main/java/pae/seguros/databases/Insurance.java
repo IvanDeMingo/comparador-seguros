@@ -19,12 +19,13 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
                         childColumns = "carPlate")
         })
 public class Insurance {
-    public int userDni;
+    @NonNull
+    public String userDni;
     @NonNull
     public String carPlate;
     //TODO: añadir campos
 
-    public Insurance(int userDni, String carPlate) {
+    public Insurance(String userDni, String carPlate) {
         this.userDni = userDni;
         this.carPlate = carPlate;
     }

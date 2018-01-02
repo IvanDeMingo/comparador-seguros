@@ -79,7 +79,7 @@ public class SegurosFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Random rand = new Random();
-                Integer dni = rand.nextInt();
+                String dni = String.valueOf(rand.nextInt());
                 String plate = String.valueOf(rand.nextInt());
                 //TODO: se añade un seguro por defecto para probar la aplicacion, falta hacer toda la logica cuando se llama al fab
                 AppDatabase.getDatabase(SegurosFragment.this.getContext()).userDao().
