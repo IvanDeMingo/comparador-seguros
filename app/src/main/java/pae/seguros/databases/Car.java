@@ -16,14 +16,16 @@ public class Car {
     @NonNull
     public final String plate;
     public String model, company, colour;
+    public String PhotoPATH;
     public long firstMatriculation;   //TODO: add Blob of data with the image and more information
 
 
-    public Car(String plate, String model, String company, String colour, long firstMatriculation) {
+    public Car(String plate, String model, String company, String colour, long firstMatriculation, String PhotoPATH) {
         this.plate = plate;
         this.model = model;
         this.company = company;
         this.colour = colour;
         this.firstMatriculation = firstMatriculation;
+        this.PhotoPATH = PhotoPATH;
     }
 }

@@ -85,7 +85,7 @@ public class SegurosFragment extends Fragment {
                 AppDatabase.getDatabase(SegurosFragment.this.getContext()).userDao().
                         addUser(new User(dni,null,null,null,null,null,null,null,0,0,true));
                 AppDatabase.getDatabase(SegurosFragment.this.getContext()).carDao().
-                        addCar(new Car(plate,String.valueOf(rand.nextInt()),null,null,0));
+                        addCar(new Car(plate,String.valueOf(rand.nextInt()),null,null,0, ""));
                 AppDatabase.getDatabase(SegurosFragment.this.getContext()).insuranceDao().
                         addInsurance(new Insurance(dni,plate));
                 

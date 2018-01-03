@@ -56,7 +56,7 @@ public class VehiculosFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().
-                        addCar(new Car(String.valueOf(rand.nextInt()),String.valueOf(rand.nextInt()),null,null,0));
+                        addCar(new Car(String.valueOf(rand.nextInt()),String.valueOf(rand.nextInt()),null,null,0, ""));
                 initLayout();
             }
         });
