@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\alldocube\StudioProjects\comparador-seguros\Seguros.iml" filepath="C:\Users\alldocube\StudioProjects\comparador-seguros\Seguros.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\alldocube\StudioProjects\comparador-seguros\app\app.iml" filepath="C:\Users\alldocube\StudioProjects\comparador-seguros\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/comparador-seguros.iml" filepath="$PROJECT_DIR$/comparador-seguros.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/comparador-seguros.iml" filepath="$PROJECT_DIR$/.idea/comparador-seguros.iml" />
     </modules>
   </component>
 </project>
