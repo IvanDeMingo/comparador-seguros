@@ -32,7 +32,7 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
             editTextDob, editTextPlace;
     private Spinner spinnerGender;
 
-    private Button buttonSubmit;
+    private Button buttonSubmit, buttonCancel;
 
     private AwesomeValidation awesomeValidation;
 
@@ -52,6 +52,7 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
 
         spinnerGender = (Spinner)findViewById(R.id.spinnerGender);
         buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
+        buttonCancel = (Button) findViewById(R.id.buttonCancel);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -68,9 +69,8 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
         awesomeValidation.addValidation(this, R.id.editTextDob, "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$", R.string.dateerror);
         awesomeValidation.addValidation(this, R.id.editTextPlace, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.placeerror);
 
-
-
         buttonSubmit.setOnClickListener(this);
+        buttonCancel.setOnClickListener(this);
     }
 
     private void validateForm() {
@@ -124,6 +124,9 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View view) {
         if (view == buttonSubmit) {
             validateForm();
+        }
+        else if (view==buttonCancel) {
+            onBackPressed();
         }
     }
 }

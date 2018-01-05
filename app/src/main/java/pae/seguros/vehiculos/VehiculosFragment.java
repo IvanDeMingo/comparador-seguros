@@ -42,7 +42,7 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
     private RecyclerView mRecyclerView;
     private CarAdapter mAdapter;
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab,fabCamera;
+    private FloatingActionButton fab,fabCamera,fabQr;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
     private Uri mImageUri;
     private static String[] PERMISSIONS_STORAGE = {
@@ -74,12 +74,14 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
     private void initLayout() {
         fab = (FloatingActionButton) mView.findViewById(R.id.fab);
         fabCamera = (FloatingActionButton) mView.findViewById(R.id.fabCamera);
+        fabQr = (FloatingActionButton) mView.findViewById(R.id.fabQr);
         fab_open = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.rotate_backward);
         fab.setOnClickListener(this);
         fabCamera.setOnClickListener(this);
+        fabQr.setOnClickListener(this);
 
 
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.rv);
@@ -113,6 +115,8 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
                 startActivityForResult(camera_intent,CAM_REQUEST);
                 break;
+            case R.id.fabQr:
+                break;
         }
     }
 
@@ -139,12 +143,16 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         if(isFabOpen){
             fab.startAnimation(rotate_backward);
             fabCamera.startAnimation(fab_close);
+            fabQr.startAnimation(fab_close);
             fabCamera.setClickable(false);
+            fabQr.setClickable(false);
             isFabOpen = false;
         } else {
             fab.startAnimation(rotate_forward);
             fabCamera.startAnimation(fab_open);
+            fabQr.startAnimation(fab_open);
             fabCamera.setClickable(true);
+            fabQr.setClickable(true);
             isFabOpen = true;
         }
     }

@@ -34,6 +34,7 @@ public class SegurosFragment extends Fragment {
     private AppDatabase db;
     private RecyclerView recyclerView;
     private TextView emptyText;
+    private TextView emptyText2;
     private ImageView emptyImage;
     private RecyclerView mRecyclerView;
     private InsuranceAdapter mAdapter;
@@ -52,16 +53,19 @@ public class SegurosFragment extends Fragment {
 
         recyclerView = (RecyclerView) mView.findViewById(R.id.rv);
         emptyText = (TextView) mView.findViewById(R.id.empty_text);
+        emptyText2 = (TextView) mView.findViewById(R.id.empty_text2);
         emptyImage = (ImageView) mView.findViewById(R.id.empty_image);
 
         List<Insurance> allInsurances = AppDatabase.getDatabase(this.getContext()).insuranceDao().getAllInsurances();
         if (allInsurances.isEmpty()) {
             emptyText.setVisibility(LinearLayout.VISIBLE);
+            emptyText2.setVisibility(LinearLayout.VISIBLE);
             emptyImage.setVisibility(LinearLayout.VISIBLE);
             recyclerView.setVisibility(LinearLayout.GONE);
         }
         else {
             emptyText.setVisibility(LinearLayout.GONE);
+            emptyText2.setVisibility(LinearLayout.GONE);
             emptyImage.setVisibility(LinearLayout.GONE);
             recyclerView.setVisibility(LinearLayout.VISIBLE);
         }

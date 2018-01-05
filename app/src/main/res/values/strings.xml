@@ -19,6 +19,7 @@
     <string name="gender_prompt">Choose a gender</string>
     <string name="place_of_residence">Enter Place of Residence</string>
     <string name="placeerror">Enter a valid place of residence</string>
+    <string name="cancel">Cancel</string>
     <string-array name="gender_arrays">
         <item>Male</item>
         <item>Female</item>
