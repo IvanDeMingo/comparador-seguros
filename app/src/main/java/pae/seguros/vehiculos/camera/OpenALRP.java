@@ -1,223 +1,204 @@
 package pae.seguros.vehiculos.camera;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.DialogInterface;
+import android.annotation.TargetApi;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Spinner;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
-import static android.content.ContentValues.TAG;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpResponse;
+import pae.seguros.R;
+import pae.seguros.vehiculos.VehiculosForm;
 
 /**
  * Created by Gerard on 04/01/2018.
  */
 
 public class OpenALRP extends android.support.v4.app.Fragment {
-/*
-    Button butInformation,butPhoto;
-    ImageView image;
-    private Uri mImageUri;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
-    static final int CAM_REQUEST = 1;
+    private ArrayList<String> OpenALRPRes = new ArrayList<>();
+    private ArrayList<String> SighthoundRes = new ArrayList<>();
+    String Omatricula = null, Smatricula = null;
+    String Omarca1 = null, Smarca1= null;
+    String Omodel1 = null, Smodel1= null;
+    String Omarca2 = null, Smarca2 = null;
+    String Omodel2 = null, Smodel2 = null;
+    private boolean SighthoundFinished = false;
 
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.camera_openalpr,container,false);
+        View view = inflater.inflate(R.layout.vehiculos_fragment,container,false);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        butInformation = (Button) getView().findViewById(R.id.btninfo);
-        butPhoto = (Button) getView().findViewById(R.id.btnphoto);
-        image = (ImageView) getView().findViewById(R.id.imageView);
-        butPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getContext(),Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
+        setRetainInstance(true);
 
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAM_REQUEST);
-                }
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //verificamos los permisos de escritura en storage
-                verifyStoragePermissions(getActivity());
-                //Li pasem la localitzacio del fitxer al intent
-                File file = getfile();
-                mImageUri = Uri.fromFile(file);
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-                startActivityForResult(camera_intent,CAM_REQUEST);
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Wait while loading...");
+        dialog.setTitle("Loading");
+        dialog.setProgressStyle(dialog.STYLE_SPINNER);
+        dialog.show();
+
+        //API Sighthound
+        new NetworkAsyncTask().execute();
+
+        //API Openalpr url
+        URL url = null;
+        HttpURLConnection urlconnection = null;
+
+        try {
+            url = new URL("https://api.openalpr.com/v2/recognize?");
+
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        }
+
+        try {
+            urlconnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        RequestParams params = new RequestParams();
+        try {
+            params.put("image", getfile());
+        } catch (java.io.FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        params.put("secret_key", "sk_e5468a7f484c80efe9599482");
+        params.put("recognize_vehicle",1);
+        params.put("country", "eu");
+        params.put("return_image",0);
+        params.put("topn",2);
+
+        client.post("https://api.openalpr.com/v2/recognize?", params, new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println("ERROR Openalpr");
             }
-        });
-        butInformation.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject jsonobj) {
 
-                //API Openalpr url
-
-                URL url = null;
-                HttpURLConnection urlconnection = null;
-
-                try {
-                    url = new URL("https://api.openalpr.com/v2/recognize?");
-
-                } catch (MalformedURLException e1) {
-                    e1.printStackTrace();
-                }
-
-                try {
-                    urlconnection = (HttpURLConnection) url.openConnection();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                AsyncHttpClient client = new AsyncHttpClient();
-
-                RequestParams params = new RequestParams();
-                try {
-                    params.put("image", getfile());
-                } catch (java.io.FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                params.put("secret_key", "sk_e5468a7f484c80efe9599482");
-                params.put("recognize_vehicle",1);
-                params.put("country", "eu");
-                params.put("return_image",0);
-                params.put("topn",2);
-
-
-
-                client.post("https://api.openalpr.com/v2/recognize?", params, new JsonHttpResponseHandler() {
-
-                    String matricula = null;
-                    String marca1 =null;
-                    String model1=null;
-                    String marca2 = null;
-                    String model2 = null;
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        System.out.println("ERROR Openalpr");
-                    }
-
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject jsonobj) {
-
-                        Iterator<String> iter = jsonobj.keys();
-                        System.out.println(jsonobj);
-                        while (iter.hasNext()) {
-                            String key = iter.next();
-                            try {
-                                if (key.equals("results")) {
-                                    JSONArray array = jsonobj.getJSONArray("results");
-                                    for (int i = 0; i < array.length(); i++) {
-                                        //System.out.println(array.getJSONObject(i).getString("plate"));
-                                        if (array.getJSONObject(i).has("plate")) {
-                                            matricula = array.getJSONObject(i).getString("plate");
-                                            if(array.getJSONObject(i).has("vehicle")){
-                                                if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(0).has("name")) {
-                                                    marca1 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(0).getString("name");
-                                                }
-                                                if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(0).has("name")){
-                                                    model1 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(0).getString("name");
-                                                }
-                                                if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(1).has("name")){
-                                                    marca2 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(1).getString("name");
-                                                }
-                                                if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(1).has("name")){
-                                                    model2 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(1).getString("name");
-                                                }
-                                            }
+                Iterator<String> iter = jsonobj.keys();
+                //System.out.println(jsonobj);
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    try {
+                        if (key.equals("results")) {
+                            JSONArray array = jsonobj.getJSONArray("results");
+                            for (int i = 0; i < array.length(); i++) {
+                                //System.out.println(array.getJSONObject(i).getString("plate"));
+                                if (array.getJSONObject(i).has("plate")) {
+                                    Omatricula = array.getJSONObject(i).getString("plate");
+                                    if(array.getJSONObject(i).has("vehicle")){
+                                        if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(0).has("name")) {
+                                            Omarca1 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(0).getString("name");
+                                        }
+                                        if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(0).has("name")){
+                                            Omodel1 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(0).getString("name");
+                                        }
+                                        if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(1).has("name")){
+                                            Omarca2 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make").getJSONObject(1).getString("name");
+                                        }
+                                        if (array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(1).has("name")){
+                                            Omodel2 = array.getJSONObject(i).getJSONObject("vehicle").getJSONArray("make_model").getJSONObject(1).getString("name");
                                         }
                                     }
-                                    System.out.println("Resultats OpenALPR: \n");
-                                    if (matricula==null) System.out.println("Unknown");
-                                    System.out.println(matricula);
-                                    if (marca1==null) System.out.println("Unknown");
-                                    System.out.println(marca1);
-                                    if (model1==null) System.out.println("Unknown");
-                                    System.out.println(model1);
-                                    if (marca2==null) System.out.println("Unknown");
-                                    System.out.println(marca2);
-                                    if (model2==null) System.out.println("Unknown");
-                                    System.out.println(model2);
-
-
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setTitle("OpenALPR Results");
-                                    builder.setMessage("Licenseplate: " + matricula + "\n" + "Make1: " + marca1 + "\n" + "Model1: " + model1 + "\n" + "Make2: " + marca2 + "\n" + "Model2: " + model2);
-                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            dialogInterface.cancel();
-                                        }
-                                    });
-                                    AlertDialog alert = builder.create();
-                                    alert.show();
-
                                 }
-                            } catch (JSONException e) {
-                                System.out.println("Resultats OpenALPR: \n");
-                                //Matricula
-                                System.out.println("Unknown");
-                                //Make1
-                                System.out.println("Unknown");
-                                //Model1
-                                System.out.println("Unknown");
-                                //Make2
-                                System.out.println("Unknown");
-                                //Model2
-                                System.out.println("Unknown");
                             }
+                            if (Omatricula==null) Omatricula = "Unknown";
+                            if (Omarca1==null) Omarca1 = "Unknown";
+                            if (Omodel1==null) Omodel1 = "Unknown";
+                            if (Omarca2==null) Omarca2 = "Unknown";
+                            if (Omodel2==null) Omodel2 = "Unknown";
+
+                            //afegim els resultats larray
+                            OpenALRPRes.add(Omatricula);
+                            OpenALRPRes.add(Omarca1);
+                            OpenALRPRes.add(Omodel1);
+                            OpenALRPRes.add(Omarca2);
+                            OpenALRPRes.add(Omodel2);
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
+
+                Intent resultIntent = new Intent(getActivity(),VehiculosForm.class);
+                resultIntent.putExtra("omatricula", OpenALRPRes.get(0));
+                resultIntent.putExtra("omodel1", OpenALRPRes.get(1));
+                resultIntent.putExtra("omarca1", OpenALRPRes.get(2));
+                resultIntent.putExtra("omodel2", OpenALRPRes.get(3));
+                resultIntent.putExtra("omarca2", OpenALRPRes.get(4));
+
+                if (SighthoundFinished){
+                    resultIntent.putExtra("smatricula", SighthoundRes.get(0));
+                    resultIntent.putExtra("smodel1", SighthoundRes.get(1));
+                    resultIntent.putExtra("smarca1", SighthoundRes.get(2));
+                    resultIntent.putExtra("smodel2", SighthoundRes.get(3));
+                    resultIntent.putExtra("smarca2", SighthoundRes.get(4));
+                }
+
+                startActivity(resultIntent);
+                dialog.dismiss();
+
+
+            }
+
+            @Override
+            public void onProgress(long bytesWritten, long totalSize) {
+                super.onProgress(bytesWritten, totalSize);
+                //System.out.println("Percentatge:"+(int)(bytesWritten*100)/totalSize);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
             }
         });
-    }
-
-    public static void verifyStoragePermissions(Activity activity) {
-        // comprobamos si tenemos permiso de escritura
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            //no tenemos permisos, entonces se lo damos al usuario
-            ActivityCompat.requestPermissions(activity,PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
-        }
     }
 
     private File getfile(){
@@ -228,14 +209,190 @@ public class OpenALRP extends android.support.v4.app.Fragment {
         return image_file;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //String path = mImageUri.getPath();
-        //image.setImageDrawable(Drawable.createFromPath(path));
-        Log.d(TAG, mImageUri.getPath());
-        Bitmap bitmap = BitmapFactory.decodeFile(mImageUri.getPath());
-        image.setImageBitmap(bitmap);
+    private class NetworkAsyncTask extends AsyncTask<Void, Integer, Void> {
+        //private ProgressDialog mProgress =null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+           /* mProgress = new ProgressDialog(getContext());
+
+            mProgress.setMessage("Please wait...");
+            mProgress.setTitle("Sighthound");
+
+            mProgress.setMax(100);
+            mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgress.setIndeterminate(false);
+
+            mProgress.show();*/
+        }
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            String api = "https://dev.sighthoundapi.com/v1/recognition?objectType=vehicle,licenseplate";
+            String accessToken = "OAFMge5GN40wlLsyHvxpUxVkLzytbCmvNbKJ";
+
+            ArrayList<String> res = new ArrayList<>();
+
+            try {
+                File file = getfile();
+                FileInputStream fis = new FileInputStream(file);
+                Bitmap bm = BitmapFactory.decodeStream(fis);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 0 , baos);
+                byte[] bytes = baos.toByteArray();
+                //String test = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+
+                // JSONObject jsonImage = new JSONObject(test);
+                URL apiURL = new URL(api);
+                HttpURLConnection connection = (HttpURLConnection) apiURL.openConnection();
+                connection.setRequestProperty("Content-Type", "application/octet-stream");
+                connection.setRequestProperty("X-Access-Token", accessToken);
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+
+                byte[] body = bytes;
+                connection.setFixedLengthStreamingMode(body.length);
+                OutputStream os = connection.getOutputStream();
+                //System.out.println("Estic mes que reaaaaaaaaaaaady esperant ja!!!!!!!!2"+ body.length);
+                os.write(body);
+                os.flush();
+                int httpCode = connection.getResponseCode();
+
+                /*for (int i=0; i < 100; ++i) {
+                    publishProgress(i);
+                    try{
+                        Thread.sleep(100);
+                    }catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }*/
+
+                if (httpCode == 200) {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    bufferedReader.close();
+                    JSONObject result = new JSONObject(String.valueOf(stringBuilder));
+                    //System.out.println(stringBuilder);
+                    Iterator<String> iter = result.keys();
+
+                    while (iter.hasNext()) {
+                        String key = iter.next();
+
+                        try {
+                            if (key.equals("objects")) {
+
+                                JSONArray array = result.getJSONArray("objects");
+                                //First car
+                                if(array.getJSONObject(0).has("vehicleAnnotation")) {
+                                    //Mirem que a la resposta JSON estigui la matricula
+                                    if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").has("licenseplate")){
+                                        if(array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("licenseplate").has("attributes")){
+                                            if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("licenseplate").getJSONObject("attributes").has("system")){
+                                                if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("licenseplate").getJSONObject("attributes").getJSONObject("system").has("string")){
+                                                    if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("licenseplate").getJSONObject("attributes").getJSONObject("system").getJSONObject("string").has("name")){
+                                                        Smatricula = array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("licenseplate")
+                                                                .getJSONObject("attributes").getJSONObject("system").getJSONObject("string").getString("name");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").has("attributes")) {
+                                        if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").has("system")) {
+                                            //Mirem que a la resposta JSON estigui la marca
+                                            if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").has("make")) {
+                                                if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").getJSONObject("make").has("name")) {
+                                                    Smarca1 = array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").
+                                                            getJSONObject("system").getJSONObject("make").getString("name");
+                                                }
+                                            }
+                                            //Mirem que a la resposta JSON estigui el model
+                                            if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").has("model")) {
+                                                if (array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").getJSONObject("model").has("name")) {
+                                                    Smodel1 = array.getJSONObject(0).getJSONObject("vehicleAnnotation").getJSONObject("attributes").
+                                                            getJSONObject("system").getJSONObject("model").getString("name");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                //Second car
+                                if(array.getJSONObject(1).has("vehicleAnnotation")) {
+                                    //Mirem que a la resposta JSON estigui la matricula
+                                    if (array.getJSONObject(1).getJSONObject("vehicleAnnotation").has("attributes")){
+                                        if (array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").has("system")){
+                                            //Mirem que a la resposta JSON estigui la marca
+                                            if (array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").has("make")) {
+                                                if (array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").getJSONObject("make").has("name")) {
+                                                    Smarca2 = array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").
+                                                            getJSONObject("system").getJSONObject("make").getString("name");
+                                                }
+                                            }
+                                            //Mirem que a la resposta JSON estigui el model
+                                            if (array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").has("model")) {
+                                                if (array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").getJSONObject("system").getJSONObject("model").has("name")) {
+                                                    Smodel2 = array.getJSONObject(1).getJSONObject("vehicleAnnotation").getJSONObject("attributes").
+                                                            getJSONObject("system").getJSONObject("model").getString("name");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                //System.out.println("Info Results: "+array.getJSONObject(0).getJSONObject("vehicleAnnotation"));
+                                System.out.println("Resultats Sighthound: \n");
+                                if (Smatricula==null) Smatricula = "Unknown";
+                                if (Smarca1==null) Smarca1="Unknown";
+                                if (Smodel1==null) Smodel1="Unknown";
+                                if (Smarca2==null) Smarca2="Unknown";
+                                if (Smodel2==null) Smodel2="Unknown";
+
+                                SighthoundRes.add(Smatricula);
+                                SighthoundRes.add(Smarca1);
+                                SighthoundRes.add(Smodel1);
+                                SighthoundRes.add(Smarca2);
+                                SighthoundRes.add(Smodel2);
+                                //Aviso de q ja pot llegir el resultat
+                                SighthoundFinished = true;
+                            }
+                        } catch (JSONException e) {
+                           e.printStackTrace();
+                        }
+                    }
+                }    else {
+                    //tractar lexepcio amb error de conexio
+                    System.out.println("ERROR!");
+                }
+            }catch (java.io.IOException e){
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            //mProgress.setProgress(values[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            /*System.out.println("matricula Sight "+SighthoundRes.get(0)+" model Sight "+SighthoundRes
+                    .get(1)+" Marca Sight "+SighthoundRes.get(2));*/
+
+        }
     }
 
-
-*/}
+}

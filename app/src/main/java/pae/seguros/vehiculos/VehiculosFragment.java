@@ -15,6 +15,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +34,7 @@ import pae.seguros.R;
 import pae.seguros.databases.AppDatabase;
 import pae.seguros.databases.Car;
 import pae.seguros.vehiculos.camera.Camera;
+import pae.seguros.vehiculos.camera.OpenALRP;
 
 import static android.content.ContentValues.TAG;
 
@@ -162,9 +165,18 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-           //EL que toqui
+            setFragment(new OpenALRP());
         }
     }
+
+    public void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.frame_content, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+    }
+
 
 
 

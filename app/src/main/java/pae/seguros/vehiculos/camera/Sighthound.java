@@ -48,17 +48,7 @@ import static android.content.ContentValues.TAG;
  */
 
 public class Sighthound extends android.support.v4.app.Fragment{
-/*    Button butInformation, butPhoto;
-    ImageView image;
-    private Uri mImageUri;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-
-    static final int CAM_REQUEST = 1;
-
+/*
     String matricula = null;
     String marca1 =null;
     String model1=null;
@@ -75,27 +65,7 @@ public class Sighthound extends android.support.v4.app.Fragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        butInformation = (Button) getView().findViewById(R.id.btninfo);
-        butPhoto = (Button) getView().findViewById(R.id.btnphoto);
-        image = (ImageView) getView().findViewById(R.id.imageView);
-        butPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
 
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAM_REQUEST);
-                }
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //verificamos los permisos de escritura en storage
-                verifyStoragePermissions(getActivity());
-                //Li pasem la localitzacio del fitxer al intent
-                File file = getfile();
-                mImageUri = Uri.fromFile(file);
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-                startActivityForResult(camera_intent, CAM_REQUEST);
-            }
-        });
 
         final TextView txtmat, txtmodel1, txtmodel2, txtmarca1, txtmarca2;
         txtmat = (TextView) getView().findViewById(R.id.matricula);
@@ -173,7 +143,7 @@ public class Sighthound extends android.support.v4.app.Fragment{
         image.setImageBitmap(bitmap);
     }
 
-    private class NetworkAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
+    protected static class NetworkAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
 
         @Override
         protected ArrayList<String> doInBackground(Void... voids) {
