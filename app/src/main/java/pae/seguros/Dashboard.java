@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import pae.seguros.conductores.ConductoresFragment;
 import pae.seguros.seguros.SegurosFragment;
@@ -15,6 +17,8 @@ import pae.seguros.vehiculos.VehiculosFragment;
 
 public class Dashboard extends AppCompatActivity {
     private Fragment fragment;
+    private TextView toolbarTitle;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -23,12 +27,15 @@ public class Dashboard extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.vehiculos:
                     fragment = VehiculosFragment.newInstance(true);
+                    toolbarTitle.setText(R.string.vehiculos);
                     break;
                 case R.id.seguros:
                     fragment = new SegurosFragment();
+                    toolbarTitle.setText(R.string.seguros);
                     break;
                 case R.id.conductores:
                     fragment = ConductoresFragment.newInstance(true);
+                    toolbarTitle.setText(R.string.conductores);
                     break;
             }
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -51,5 +58,7 @@ public class Dashboard extends AppCompatActivity {
         transaction.replace(R.id.frame_content, new SegurosFragment());
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
 
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(R.string.seguros);
     }
 }
