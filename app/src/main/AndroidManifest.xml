@@ -3,8 +3,10 @@
     package="pae.seguros">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NFC"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".conductores.DniOcrMain" />
+        <activity android:name=".conductores.dni_ocr.DniOcrMain"
+            android:label="@string/OcrDNI" />
+        <activity android:name=".conductores.UserForm"
+            android:label="@string/UserForm" />
+        <activity android:name=".vehiculos.VehiculosForm"
+            android:label="VehicleForm"/>
     </application>
 
 </manifest>

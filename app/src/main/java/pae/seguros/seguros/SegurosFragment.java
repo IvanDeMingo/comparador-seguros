@@ -1,6 +1,5 @@
 package pae.seguros.seguros;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,11 +24,11 @@ import pae.seguros.databases.Insurance;
 
 public class SegurosFragment extends Fragment {
 
-    private Activity mActivity;
     private View mView;
     private AppDatabase db;
     private RecyclerView recyclerView;
     private TextView emptyText;
+    private TextView emptyText2;
     private ImageView emptyImage;
     private RecyclerView mRecyclerView;
     private InsuranceAdapter mAdapter;
@@ -39,7 +38,6 @@ public class SegurosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.seguros_fragment, container, false);
-        mActivity = getActivity();
         initLayout();
         return mView;
     }
@@ -48,16 +46,19 @@ public class SegurosFragment extends Fragment {
 
         recyclerView = (RecyclerView) mView.findViewById(R.id.rv);
         emptyText = (TextView) mView.findViewById(R.id.empty_text);
+        emptyText2 = (TextView) mView.findViewById(R.id.empty_text2);
         emptyImage = (ImageView) mView.findViewById(R.id.empty_image);
 
         List<Insurance> allInsurances = AppDatabase.getDatabase(this.getContext()).insuranceDao().getAllInsurances();
         if (allInsurances.isEmpty()) {
             emptyText.setVisibility(LinearLayout.VISIBLE);
+            emptyText2.setVisibility(LinearLayout.VISIBLE);
             emptyImage.setVisibility(LinearLayout.VISIBLE);
             recyclerView.setVisibility(LinearLayout.GONE);
         }
         else {
             emptyText.setVisibility(LinearLayout.GONE);
+            emptyText2.setVisibility(LinearLayout.GONE);
             emptyImage.setVisibility(LinearLayout.GONE);
             recyclerView.setVisibility(LinearLayout.VISIBLE);
         }
@@ -77,6 +78,20 @@ public class SegurosFragment extends Fragment {
                 Log.v("DEBUG", "FAB listener");
                 Intent intent = new Intent(getActivity(), ConsultarSeguroActivity.class);
                 startActivity(intent);
+                /*
+                Random rand = new Random();
+                String dni = String.valueOf(rand.nextInt());
+                String plate = String.valueOf(rand.nextInt());
+                //TODO: se añade un seguro por defecto para probar la aplicacion, falta hacer toda la logica cuando se llama al fab
+                AppDatabase.getDatabase(SegurosFragment.this.getContext()).userDao().
+                        addUser(new User(dni,null,null,null,null,null,null,null,0,0,true));
+                AppDatabase.getDatabase(SegurosFragment.this.getContext()).carDao().
+                        addCar(new Car(plate,String.valueOf(rand.nextInt()),null,null,0, ""));
+                AppDatabase.getDatabase(SegurosFragment.this.getContext()).insuranceDao().
+                        addInsurance(new Insurance(dni,plate));
+                
+                initLayout();
+                */
             }
         });
     }

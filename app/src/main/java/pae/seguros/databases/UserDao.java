@@ -20,10 +20,13 @@ public interface UserDao {
     public List<User> getAllUser();
 
     @Query("select * from user where dni = :dni")
-    public List<User> getUser(long dni);
+    public List<User> getUser(String dni);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateUser(User user);
+
+    @Query("delete from user where dni = :dni")
+    void deleteUser(String dni);
 
     @Query("delete from user")
     void removeAllUsers();

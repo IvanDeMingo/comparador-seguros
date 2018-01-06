@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Seguros</string>
-    <string name="vehiculos">Vehículos</string>
-    <string name="seguros">Seguros</string>
-    <string name="conductores">Conductores</string>
     <string name="consultar_seguro_tab0">Coche</string>
     <string name="consultar_seguro_tab1">Conductor</string>
     <string name="consultar_seguro_tab2">Condiciones</string>
@@ -26,4 +23,29 @@
     <string name="dnie_no_detectado">DNIe no detectado.</string>
     <string name="nfc_no_activado">Active el NFC para poder leer su DNIe.</string>
     <string name="sin_nfc">Su smartphone no tiene NFC.</string>
+    <string name="vehiculos">Cars</string>
+    <string name="seguros">Insurances</string>
+    <string name="conductores">Drivers</string>
+    <string name="OcrDNI">DNI Ocr</string>
+    <string name="enter_date_of_birth">Enter Date of Birth (DD/MM/YYYY)</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_surname">Enter Surname</string>
+    <string name="enter_lastname">Enter Lastname</string>
+    <string name="enter_dni">Enter DNI</string>
+    <string name="submit">Submit</string>
+    <string name="dnierror">Enter a valid DNI</string>
+    <string name="nameerror">Enter a valid name</string>
+    <string name="surnameerror">Enter a valid surname</string>
+    <string name="lastnameerror">Enter a valid lastname</string>
+    <string name="dateerror">Enter a valid date</string>
+    <string name="UserForm">UserForm</string>
+    <string name="gender_prompt">Choose a gender</string>
+    <string name="place_of_residence">Enter Place of Residence</string>
+    <string name="placeerror">Enter a valid place of residence</string>
+    <string name="enter_licenseplate">Enter License Plate</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="gender_arrays">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>
