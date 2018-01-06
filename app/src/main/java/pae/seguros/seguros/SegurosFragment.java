@@ -1,14 +1,14 @@
 package pae.seguros.seguros;
 
 import android.app.Activity;
-import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Random;
 
 import pae.seguros.R;
+import pae.seguros.consultar_seguros.ConsultarSeguroActivity;
 import pae.seguros.databases.AppDatabase;
-import pae.seguros.databases.Car;
 import pae.seguros.databases.Insurance;
-import pae.seguros.databases.User;
-import pae.seguros.vehiculos.CarAdapter;
-import pae.seguros.vehiculos.VehiculosFragment;
 
 public class SegurosFragment extends Fragment {
 
@@ -78,18 +74,9 @@ public class SegurosFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Random rand = new Random();
-                Integer dni = rand.nextInt();
-                String plate = String.valueOf(rand.nextInt());
-                //TODO: se añade un seguro por defecto para probar la aplicacion, falta hacer toda la logica cuando se llama al fab
-                AppDatabase.getDatabase(SegurosFragment.this.getContext()).userDao().
-                        addUser(new User(dni,null,null,null,null,null,null,null,0,0,true));
-                AppDatabase.getDatabase(SegurosFragment.this.getContext()).carDao().
-                        addCar(new Car(plate,String.valueOf(rand.nextInt()),null,null,0));
-                AppDatabase.getDatabase(SegurosFragment.this.getContext()).insuranceDao().
-                        addInsurance(new Insurance(dni,plate));
-                
-                initLayout();
+                Log.v("DEBUG", "FAB listener");
+                Intent intent = new Intent(getActivity(), ConsultarSeguroActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -23,12 +23,26 @@ public class ConductoresFragment extends Fragment {
     private View mView;
     private RecyclerView mRecyclerView;
     private UserAdapter mAdapter;
+    private boolean visibleFAB = true;
+    private static final String FAB = "fab";
+
+    // @param fab: if true, then show the FAB, otherwise don't show it
+    public static ConductoresFragment newInstance (boolean fab) {
+        Bundle args = new Bundle();
+        args.putBoolean(FAB, fab);
+
+        ConductoresFragment fragment = new ConductoresFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.vehiculos_fragment, container, false);
+
+        this.visibleFAB = getArguments().getBoolean(FAB);
 
         init();
 
@@ -47,16 +61,22 @@ public class ConductoresFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         mAdapter = new UserAdapter( AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser());
+
         mRecyclerView.setAdapter(mAdapter);
+
         FloatingActionButton fab = (FloatingActionButton) mView.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Random rand = new Random();
-                AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().
-                        addUser(new User(rand.nextInt(),"Prueba",null,null,null,null,null,null,0,0,true));
-                initLayout();
-            }
-        });
+        if (visibleFAB) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Random rand = new Random();
+                    AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().
+                            addUser(new User(rand.nextInt(),"Prueba",null,null,null,null,null,null,0,0,true));
+                    initLayout();
+                }
+            });
+        } else {
+            fab.setVisibility(View.INVISIBLE);
+        }
     }
 }

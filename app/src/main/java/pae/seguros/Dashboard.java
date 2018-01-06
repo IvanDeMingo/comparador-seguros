@@ -22,13 +22,13 @@ public class Dashboard extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.vehiculos:
-                    fragment = new VehiculosFragment();
+                    fragment = VehiculosFragment.newInstance(true);
                     break;
                 case R.id.seguros:
                     fragment = new SegurosFragment();
                     break;
                 case R.id.conductores:
-                    fragment = new ConductoresFragment();
+                    fragment = ConductoresFragment.newInstance(true);
                     break;
             }
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

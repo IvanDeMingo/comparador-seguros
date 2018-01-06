@@ -3,4 +3,27 @@
     <string name="vehiculos">Vehículos</string>
     <string name="seguros">Seguros</string>
     <string name="conductores">Conductores</string>
+    <string name="consultar_seguro_tab0">Coche</string>
+    <string name="consultar_seguro_tab1">Conductor</string>
+    <string name="consultar_seguro_tab2">Condiciones</string>
+    <string name="nuevo">NUEVO</string>
+    <string name="foto">Foto</string>
+    <string name="qr">QR</string>
+    <string name="manual">Manual</string>
+    <string name="add_vehicle_title">Información del vehículo</string>
+    <string name="add_driver_title">Información del conductor</string>
+    <string name="ocr">Foto del DNI</string>
+    <string name="nfc">Lectura DNI con NFC</string>
+    <string name="can">CAN</string>
+    <string name="nfc_dialog_text">Introduzca el número CAN de su DNI. A continuación, pulse ACEPTAR y aproxime su DNI al chip NFC de su smartphone.</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="nfc_dialog_title">Leer DNI con NFC</string>
+    <string name="error">Error</string>
+    <string name="reading_dnie">Leyendo DNIe...</string>
+    <string name="can_incorrecto">El número CAN es incorrecto.</string>
+    <string name="error_dni_nfc">Ocurrió un error durante la lectura del DNIe.</string>
+    <string name="dnie_no_detectado">DNIe no detectado.</string>
+    <string name="nfc_no_activado">Active el NFC para poder leer su DNIe.</string>
+    <string name="sin_nfc">Su smartphone no tiene NFC.</string>
 </resources>
