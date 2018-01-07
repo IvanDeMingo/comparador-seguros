@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import pae.seguros.R;
+import pae.seguros.conductores.dni_ocr.DniOcrMain;
 
 public class AddDriver extends AppCompatActivity {
 
