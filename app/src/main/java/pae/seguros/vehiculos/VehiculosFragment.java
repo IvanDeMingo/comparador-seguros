@@ -184,12 +184,10 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        refreshList();
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CAM_REQUEST)
                 setFragment(new OpenALRP());
-
-            refreshList();
         }
     }
 

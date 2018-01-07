@@ -1,5 +1,6 @@
 package pae.seguros.vehiculos;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -52,7 +53,8 @@ public class AddVehicle extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (resultCode == Activity.RESULT_OK)
+            finish();
         if (requestCode == QR_SCANNER && resultCode != QrCodeScanner.BACK) {
             Log.v("QR", "Successful scan");
         }

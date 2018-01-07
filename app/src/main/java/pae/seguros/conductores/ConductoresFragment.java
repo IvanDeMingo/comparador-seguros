@@ -137,13 +137,14 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
             isFabOpen = true;
         }
     }
+
+    public void refreshList() {
+        mAdapter.updateUsers(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser());
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            mAdapter.updateUsers(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser());
-        }
+        refreshList();
     }
 
 }

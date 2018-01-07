@@ -60,6 +60,7 @@
         android:layout_weight="1.5"
         android:text="@string/manual"
         android:gravity="center"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:onClick="clickManual"/>
 
 </LinearLayout>

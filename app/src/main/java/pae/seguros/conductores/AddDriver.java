@@ -24,6 +24,7 @@ import pae.seguros.conductores.dni_ocr.DniOcrMain;
 public class AddDriver extends AppCompatActivity {
 
     private static final int OCR_ACTIVITY_CODE = 0;
+    private static final int FORM = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +101,11 @@ public class AddDriver extends AppCompatActivity {
         return true;
     }
 
+    public void clickManual(View view) {
+        Intent intent = new Intent(this, UserForm.class);
+        startActivityForResult(intent, FORM);
+    }
+
     private void showErrorDialog(String message) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.error)
@@ -113,4 +119,11 @@ public class AddDriver extends AppCompatActivity {
                 .create()
                 .show();
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK)
+            finish();
+    }
+
 }

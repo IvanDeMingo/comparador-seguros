@@ -59,6 +59,16 @@ public class DniOcrMain extends Activity {
         addContentView(pantalla, new LayoutParams(LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT));
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("entra","entra");
+        if (resultCode == Activity.RESULT_OK) {
+            Intent resultIntent = new Intent();
+            setResult(resultCode, resultIntent);
+            finish();
+        }
+    }
 }
 
 class Preview extends SurfaceView implements SurfaceHolder.Callback,
@@ -295,7 +305,7 @@ class Pantalla extends View {
                 tiempo = System.currentTimeMillis();
             estiloDígito.setTextSize(canvas.getHeight());
             y = canvas.getHeight() / 2 + estiloDígito.getTextSize() / 3;
-            canvas.drawText(Integer.toString(edad)+ sexo, x, y, estiloDígito);
+            //canvas.drawText(Integer.toString(edad)+ sexo, x, y, estiloDígito);
             if ((System.currentTimeMillis() - tiempo) / 1000
                     >= SEGUNDOS_A_MOSTRAR_DÍGITO) {
                 Intent resultIntent = new Intent(this.getContext(),UserForm.class);

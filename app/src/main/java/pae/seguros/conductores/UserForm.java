@@ -112,8 +112,8 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
                                 editTextPlace.getText().toString(),null,0,
                                 unixTimestamp,
                                 String.valueOf(spinnerGender.getSelectedItem()).equals("Male")));
-                Intent resultIntent = new Intent(this,Dashboard.class);
-                startActivity(resultIntent);
+                setResult(Activity.RESULT_OK, new Intent());
+                finish();
             } catch (ParseException e) {
                 e.printStackTrace();
             }

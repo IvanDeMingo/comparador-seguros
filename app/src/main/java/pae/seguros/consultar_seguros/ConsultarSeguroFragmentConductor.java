@@ -15,7 +15,7 @@ import pae.seguros.conductores.AddDriver;
 import pae.seguros.conductores.ConductoresFragment;
 
 public class ConsultarSeguroFragmentConductor extends ConsultarSeguroFragment {
-
+    private ConductoresFragment fragment;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,16 +33,22 @@ public class ConsultarSeguroFragmentConductor extends ConsultarSeguroFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddDriver.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
             }
         });
     }
 
     private void initDrivers() {
-        ConductoresFragment fragment = ConductoresFragment.newInstance(false);
+        fragment = ConductoresFragment.newInstance(false);
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.conductores_content, fragment);
         t.commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        fragment.refreshList();
     }
 
 }
