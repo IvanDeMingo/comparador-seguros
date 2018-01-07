@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Seguros.iml" filepath="$PROJECT_DIR$/Seguros.iml" />
+      <module fileurl="file://C:\Users\gerar\AndroidStudioProjects\comparador-seguros\Seguros.iml" filepath="C:\Users\gerar\AndroidStudioProjects\comparador-seguros\Seguros.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/comparador-seguros.iml" filepath="$PROJECT_DIR$/.idea/comparador-seguros.iml" />
       <module fileurl="file://$PROJECT_DIR$/dniedroid/dniedroid.iml" filepath="$PROJECT_DIR$/dniedroid/dniedroid.iml" />
+      <module fileurl="file://C:\Users\gerar\AndroidStudioProjects\comparador-seguros\dniedroid\dniedroid.iml" filepath="C:\Users\gerar\AndroidStudioProjects\comparador-seguros\dniedroid\dniedroid.iml" />
     </modules>
   </component>
 </project>

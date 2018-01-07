@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.File;
+
+import pae.seguros.MainActivity;
 
 /**
  * Created by Gerard on 04/01/2018.
@@ -50,7 +54,9 @@ public class Camera extends android.support.v4.app.Fragment {
         verifyStoragePermissions(getActivity());
         //Li pasem la localitzacio del fitxer al intent
         File file = getfile();
-        mImageUri = Uri.fromFile(file);
+        mImageUri = FileProvider.getUriForFile(getActivity(),
+                BuildConfig.APPLICATION_ID + ".provider",
+                file);
         camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
         startActivityForResult(camera_intent,CAM_REQUEST);
     }
