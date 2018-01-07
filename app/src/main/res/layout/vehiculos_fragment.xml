@@ -10,6 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabManual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="230dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:visibility="invisible"
+        app:elevation="6dp"
+        app:backgroundTint="#2196F3"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_edit_black_24dp" />
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabQr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

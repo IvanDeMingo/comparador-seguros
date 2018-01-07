@@ -33,14 +33,14 @@
                 <action android:name="android.nfc.action.TAG_DISCOVERED"/>
             </intent-filter>
         </activity>
-        <activity android:name=".conductores.DniOcrMain" />
         <activity android:name=".conductores.dni_ocr.DniOcrMain"
             android:label="@string/OcrDNI" />
         <activity android:name=".conductores.UserForm"
             android:label="@string/UserForm" />
         <activity android:name=".vehiculos.VehiculosForm"
             android:label="VehicleForm"/>
-        
+        <activity android:name=".vehiculos.VehiculosFormNoSpinner"
+            android:label="VehiculosFormNoSpinner"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

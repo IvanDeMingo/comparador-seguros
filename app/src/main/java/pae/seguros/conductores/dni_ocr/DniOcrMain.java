@@ -298,7 +298,6 @@ class Pantalla extends View {
             canvas.drawText(Integer.toString(edad)+ sexo, x, y, estiloDígito);
             if ((System.currentTimeMillis() - tiempo) / 1000
                     >= SEGUNDOS_A_MOSTRAR_DÍGITO) {
-                Log.e("hola",String.valueOf(edad)+String.valueOf(sexo)+datosOCR.getDNI());
                 Intent resultIntent = new Intent(this.getContext(),UserForm.class);
                 resultIntent.putExtra("edad", datosOCR.getDoB());
                 resultIntent.putExtra("sexo", String.valueOf(sexo));

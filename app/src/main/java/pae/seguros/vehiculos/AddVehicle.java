@@ -18,6 +18,7 @@ public class AddVehicle extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     private static final int QR_SCANNER = 0;
+    private static final int FORM = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,12 +44,16 @@ public class AddVehicle extends AppCompatActivity {
         }
     }
 
+    public void clickManual(View view) {
+        Intent intent = new Intent(this, VehiculosFormNoSpinner.class);
+        startActivityForResult(intent, FORM);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == QR_SCANNER && resultCode != QrCodeScanner.BACK) {
-            // TODO: Guardar información "data" en la BD
             Log.v("QR", "Successful scan");
         }
     }

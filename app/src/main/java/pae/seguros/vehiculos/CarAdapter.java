@@ -55,4 +55,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
         }
     }
 
+    public void updateCars(List<Car> carList) {
+        this.carList = carList;
+        notifyDataSetChanged();
+    }
+
 }

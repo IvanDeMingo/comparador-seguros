@@ -15,6 +15,7 @@ import pae.seguros.vehiculos.AddVehicle;
 import pae.seguros.vehiculos.VehiculosFragment;
 
 public class ConsultarSeguroFragmentCoche extends ConsultarSeguroFragment {
+    private VehiculosFragment fragment;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,15 +33,21 @@ public class ConsultarSeguroFragmentCoche extends ConsultarSeguroFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddVehicle.class);
-                startActivity(intent);
+                startActivityForResult(intent,0);
             }
         });
     }
 
     private void initVehicles() {
-        VehiculosFragment fragment = VehiculosFragment.newInstance(false);
+        fragment = VehiculosFragment.newInstance(false);
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.coches_content, fragment);
         t.commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        fragment.refreshList();
     }
 }

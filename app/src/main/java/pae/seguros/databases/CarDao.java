@@ -25,7 +25,10 @@ public interface CarDao {
     public List<Car> getCar(String plate);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateUser(Car car);
+    void updateCar(Car car);
+
+    @Query("delete from car where plate = :plate")
+    void deleteCar(String plate);
 
     @Query("delete from car")
     void removeAllCars();

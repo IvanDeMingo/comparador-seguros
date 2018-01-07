@@ -44,6 +44,20 @@
     <string name="placeerror">Enter a valid place of residence</string>
     <string name="enter_licenseplate">Enter License Plate</string>
     <string name="cancel">Cancel</string>
+    <string name="enter_plate">Enter Plate</string>
+    <string name="enter_maker">Enter Maker</string>
+    <string name="enter_model">Enter Model</string>
+    <string name="enter_date_FM">Enter Year of First Matriculation</string>
+    <string name="enter_gas">Enter Gas</string>
+    <string name="enter_power">Enter Power</string>
+    <string name="enter_doors">Enter Number of Car Doors</string>
+    <string name="enter_km">Enter KM/year</string>
+    <string name="enter_garage">Enter Garage</string>
+    <string name="FMerror">Enter a valid Year of First Matriculation</string>
+    <string name="plateerror">Enter a valid plate</string>
+    <string name="powererror">Enter a valid power</string>
+    <string name="KMerror">Enter a valid KM/year</string>
+    <string name="doorerror">Enter a valid number of doors</string>
     <string-array name="gender_arrays">
         <item>Male</item>
         <item>Female</item>

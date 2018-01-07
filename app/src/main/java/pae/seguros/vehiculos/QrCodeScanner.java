@@ -15,18 +15,19 @@ public class QrCodeScanner extends Activity implements ZXingScannerView.ResultHa
     public static final int SCAN_OK = 0;
     public static final int SCAN_ERROR = 1;
     public static final int BACK = 2;
+    private static final int FORM = 3;
 
-    private static final String QR_RESULT = "qr_result";
+    public static final String QR_RESULT = "qr_result";
 
-    private static final String LICENSE_YEAR         = "license_year";
-    private static final String LICENSE_NUMBER       = "license_number";
-    private static final String MAKER                = "maker";
-    private static final String MODEL                = "model";
-    private static final String GAS                  = "gas";
-    private static final String CATEGORY             = "category";
-    private static final String POWER                = "power";
-    private static final String EMISSIONS_LVL_EUR    = "emissions_lvl_eur";
-    private static final String AUTONOMY             = "autonomy";
+    public static final String LICENSE_YEAR         = "license_year";
+    public static final String LICENSE_NUMBER       = "license_number";
+    public static final String MAKER                = "maker";
+    public static final String MODEL                = "model";
+    public static final String GAS                  = "gas";
+    public static final String CATEGORY             = "category";
+    public static final String POWER                = "power";
+    public static final String EMISSIONS_LVL_EUR    = "emissions_lvl_eur";
+    public static final String AUTONOMY             = "autonomy";
 
     private ZXingScannerView mScannerView;
 
@@ -57,15 +58,14 @@ public class QrCodeScanner extends Activity implements ZXingScannerView.ResultHa
 
         Log.v("TEXT", rawResult.getText());
 
-        Intent resultIntent = new Intent();
+        Intent resultIntent = new Intent(this,VehiculosFormNoSpinner.class);
 
         Bundle resultBundle = parseInfo(rawResult.getText());
         int resultCode = resultBundle.isEmpty() ?
                 SCAN_ERROR : SCAN_OK;
 
         resultIntent.putExtra(QR_RESULT, resultBundle);
-        setResult(resultCode, resultIntent);
-        finish();
+        startActivityForResult(resultIntent, FORM);
     }
 
     @Override
@@ -93,5 +93,18 @@ public class QrCodeScanner extends Activity implements ZXingScannerView.ResultHa
         }
 
         return bundle;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == FORM) {
+                Intent resultIntent = new Intent();
+                setResult(resultCode, resultIntent);
+                finish();
+            }
+        }
     }
 }

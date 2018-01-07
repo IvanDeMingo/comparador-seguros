@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/enter_lastname"
+                android:hint="@string/enter_date_of_birth"
                 android:inputType="date"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
@@ -113,7 +113,7 @@
             android:ems="10"
             android:entries="@array/gender_arrays"
             android:prompt="@string/gender_prompt"
-            android:paddingTop="10dp"
+            android:paddingTop="15dp"
             android:paddingBottom="10dp"
             android:layout_marginLeft="16dp"/>
     </LinearLayout>

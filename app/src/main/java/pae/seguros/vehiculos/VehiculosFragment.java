@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         return fragment;
     }
     private Boolean isFabOpen = false;
-    private FloatingActionButton fab,fabCamera,fabQr;
+    private FloatingActionButton fab,fabCamera,fabQr,fabManual;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
     private Uri mImageUri;
     private static String[] PERMISSIONS_STORAGE = {
@@ -56,9 +57,10 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
     };
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
-    static final int CAM_REQUEST = 1;
-
     private static final int CAMERA = 0;
+    static final int CAM_REQUEST = 1;
+    private static final int FORM = 2;
+    private static final int QR_SCANNER = 3;
 
     @Nullable
     @Override
@@ -77,6 +79,7 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         fab = (FloatingActionButton) mView.findViewById(R.id.fab);
         fabCamera = (FloatingActionButton) mView.findViewById(R.id.fabCamera);
         fabQr = (FloatingActionButton) mView.findViewById(R.id.fabQr);
+        fabManual = (FloatingActionButton) mView.findViewById(R.id.fabManual);
         fab_open = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fab_close);
         rotate_forward = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.rotate_forward);
@@ -84,6 +87,7 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         fab.setOnClickListener(this);
         fabCamera.setOnClickListener(this);
         fabQr.setOnClickListener(this);
+        fabManual.setOnClickListener(this);
 
 
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.rv);
@@ -120,6 +124,19 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
                 startActivityForResult(camera_intent,CAM_REQUEST);
                 break;
             case R.id.fabQr:
+                // Request camera permission if it's not already granted
+                if (ContextCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, CAM_REQUEST);
+                } else {
+                    // Start QR scan activity
+                    Intent intent = new Intent(getContext(), QrCodeScanner.class);
+                    startActivityForResult(intent, QR_SCANNER);
+                }
+                break;
+            case R.id.fabManual:
+                Intent intent = new Intent(getContext(), VehiculosFormNoSpinner.class);
+                startActivityForResult(intent, FORM);
                 break;
         }
     }
@@ -147,15 +164,19 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
             fab.startAnimation(rotate_backward);
             fabCamera.startAnimation(fab_close);
             fabQr.startAnimation(fab_close);
+            fabManual.startAnimation(fab_close);
             fabCamera.setClickable(false);
             fabQr.setClickable(false);
+            fabManual.setClickable(false);
             isFabOpen = false;
         } else {
             fab.startAnimation(rotate_forward);
             fabCamera.startAnimation(fab_open);
             fabQr.startAnimation(fab_open);
+            fabManual.startAnimation(fab_open);
             fabCamera.setClickable(true);
             fabQr.setClickable(true);
+            fabManual.setClickable(true);
             isFabOpen = true;
         }
     }
@@ -165,8 +186,15 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            setFragment(new OpenALRP());
+            if (requestCode == CAM_REQUEST)
+                setFragment(new OpenALRP());
+
+            refreshList();
         }
+    }
+
+    public void refreshList() {
+        mAdapter.updateCars(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars());
     }
 
     public void setFragment(Fragment fragment) {
