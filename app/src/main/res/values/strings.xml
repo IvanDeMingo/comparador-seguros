@@ -3,19 +3,19 @@
     <string name="consultar_seguro_tab0">Coche</string>
     <string name="consultar_seguro_tab1">Conductor</string>
     <string name="consultar_seguro_tab2">Condiciones</string>
-    <string name="nuevo">NUEVO</string>
-    <string name="foto">Foto</string>
+    <string name="nuevo">NEW</string>
+    <string name="foto">FOTO</string>
     <string name="qr">QR</string>
     <string name="manual">Manual</string>
-    <string name="add_vehicle_title">Información del vehículo</string>
-    <string name="add_driver_title">Información del conductor</string>
-    <string name="ocr">Foto del DNI</string>
-    <string name="nfc">Lectura DNI con NFC</string>
+    <string name="add_vehicle_title">Vehicle information</string>
+    <string name="add_driver_title">Driver information</string>
+    <string name="ocr">DNI OCR</string>
+    <string name="nfc">Read DNI with NFC</string>
     <string name="can">CAN</string>
     <string name="nfc_dialog_text">Introduzca el número CAN de su DNI. A continuación, pulse ACEPTAR y aproxime su DNI al chip NFC de su smartphone.</string>
-    <string name="aceptar">Aceptar</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="nfc_dialog_title">Leer DNI con NFC</string>
+    <string name="aceptar">Accept</string>
+    <string name="cancelar">Cancel</string>
+    <string name="nfc_dialog_title">Read DNI with NFC</string>
     <string name="error">Error</string>
     <string name="reading_dnie">Leyendo DNIe...</string>
     <string name="can_incorrecto">El número CAN es incorrecto.</string>
@@ -58,6 +58,11 @@
     <string name="powererror">Enter a valid power</string>
     <string name="KMerror">Enter a valid KM/year</string>
     <string name="doorerror">Enter a valid number of doors</string>
+    <string name="calculate_insurance">Calculate Insurance</string>
+    <string name="selected_vehicle">Selected vehicle:</string>
+    <string name="selected_driver">Selected driver:</string>
+    <string name="select_a_car">Select a car</string>
+    <string name="select_a_driver">Select a driver</string>
     <string-array name="gender_arrays">
         <item>Male</item>
         <item>Female</item>

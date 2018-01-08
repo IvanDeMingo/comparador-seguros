@@ -79,12 +79,15 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new UserAdapter( AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser());
-
+        if (!visibleFAB) {
+            fab.setVisibility(View.INVISIBLE);
+            mAdapter = new UserAdapter(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser(),true);
+        }
+        else
+            mAdapter = new UserAdapter(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser(),false);
         mRecyclerView.setAdapter(mAdapter);
 
-        if (!visibleFAB)
-            fab.setVisibility(View.INVISIBLE);
+
     }
 
     @Override

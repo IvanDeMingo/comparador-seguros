@@ -94,11 +94,12 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars());
-        mRecyclerView.setAdapter(mAdapter);
-
-        if (!visibleFAB)
+        if (!visibleFAB) {
             fab.setVisibility(View.INVISIBLE);
+            mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars(),true);
+        }
+        else mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars(),false);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

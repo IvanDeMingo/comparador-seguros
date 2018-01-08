@@ -3,6 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/select_a_driver"
+        android:textSize="24sp"
+        android:paddingTop="12dp"/>
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/button_add"
         android:layout_width="wrap_content"
@@ -16,13 +24,12 @@
         android:paddingTop="12dp"
         android:paddingEnd="36dp"
         android:paddingStart="36dp"
-        android:layout_margin="16dp"
+        android:layout_margin="6dp"
         />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/conductores_content"
-        android:paddingTop="16dp"/>
+        android:id="@+id/conductores_content"/>
 
 </LinearLayout>

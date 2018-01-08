@@ -1,5 +1,6 @@
 package pae.seguros.conductores;
 
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,9 +17,17 @@ import pae.seguros.databases.User;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     List<User> userList;
+    private int selectedItem;
+    Boolean highlighted;
 
-    UserAdapter(List<User> userList){
+    UserAdapter(List<User> userList, Boolean highlighted){
         this.userList = userList;
+        selectedItem = -1;
+        this.highlighted = highlighted;
+    }
+
+    public User getSelectedItem() {
+        return selectedItem >= 0 ? userList.get(selectedItem) : null;
     }
 
     @Override
@@ -33,6 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         holder.title.setText(String.valueOf(userList.get(position).dni));
         holder.subtitle.setText(userList.get(position).name);
         holder.photo.setImageResource(R.drawable.ic_conductor_icono2);
+        if(selectedItem == position) holder.cv.setBackgroundColor(Color.parseColor("#ccff00"));
     }
 
     @Override
@@ -40,7 +50,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return userList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CardView cv;
         TextView title;
         TextView subtitle;
@@ -52,6 +62,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             title = (TextView)itemView.findViewById(R.id.title);
             subtitle = (TextView)itemView.findViewById(R.id.subtitle);
             photo = (ImageView)itemView.findViewById(R.id.photo);
+            if (highlighted) itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (selectedItem == (getAdapterPosition())) {
+                selectedItem = -1;
+                cv.setBackgroundColor(Color.parseColor("#ffffff"));
+            }
+            else if (selectedItem < 0){
+                selectedItem = getAdapterPosition();
+                cv.setBackgroundColor(Color.parseColor("#ccff00"));
+            }
         }
     }
 

@@ -6,19 +6,34 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import pae.seguros.R;
 
 public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
-
+    private Button bCalcularSeguro;
+    private TextView selecteddriver, selectedvehicle;
+    private View mView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.consultar_seguro_page3, container, false);
+        mView = inflater.inflate(R.layout.consultar_seguro_page3, container, false);
 
+        initLayout();
 
-
-        return view;
+        return mView;
     }
+
+    private void initLayout() {
+        bCalcularSeguro = (Button) mView.findViewById(R.id.bCalcularSeguro);
+        selecteddriver = (TextView) mView.findViewById(R.id.selecteddriver);
+        selectedvehicle = (TextView) mView.findViewById(R.id.selectedvehicle);
+    }
+
+    View.OnClickListener buttonHandler = new View.OnClickListener() {
+        public void onClick(View v) {
+        }
+    };
 
 }

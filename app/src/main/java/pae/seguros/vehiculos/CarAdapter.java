@@ -1,11 +1,16 @@
 package pae.seguros.vehiculos;
 
+import android.graphics.Color;
+import android.renderscript.BaseObj;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,9 +21,17 @@ import pae.seguros.databases.Car;
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
 
     List<Car> carList;
+    private int selectedItem;
+    Boolean highlighted;
 
-    CarAdapter(List<Car> carList){
+    CarAdapter(List<Car> carList, Boolean highlighted){
         this.carList = carList;
+        selectedItem = -1;
+        this.highlighted = highlighted;
+    }
+
+    public Car getSelectedItem() {
+        return selectedItem >= 0 ? carList.get(selectedItem) : null;
     }
 
     @Override
@@ -33,6 +46,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
         holder.title.setText(carList.get(position).plate);
         holder.subtitle.setText(carList.get(position).model);
         holder.photo.setImageResource(R.drawable.vehiculo_icono);
+        if(selectedItem == position) holder.cv.setBackgroundColor(Color.parseColor("#ccff00"));
     }
 
     @Override
@@ -40,7 +54,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
         return carList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CardView cv;
         TextView title;
         TextView subtitle;
@@ -52,6 +66,19 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
             title = (TextView)itemView.findViewById(R.id.title);
             subtitle = (TextView)itemView.findViewById(R.id.subtitle);
             photo = (ImageView)itemView.findViewById(R.id.photo);
+            if (highlighted) itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (selectedItem == (getAdapterPosition())) {
+                selectedItem = -1;
+                cv.setBackgroundColor(Color.parseColor("#ffffff"));
+            }
+            else if (selectedItem < 0){
+                selectedItem = getAdapterPosition();
+                cv.setBackgroundColor(Color.parseColor("#ccff00"));
+            }
         }
     }
 
