@@ -3,10 +3,10 @@ package pae.seguros.conductores;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -173,15 +173,11 @@ public class DniNfcAdapter implements android.nfc.NfcAdapter.ReaderCallback {
 
     private void showInfo() {
         if (mView != null && dg1 != null && dg11 != null) {
-            // TODO: Guardar datos en la BD
-            Log.v("NFC", dg11.getPersonalNumber());
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar.make(mView, dg11.getPersonalNumber() + " - " + dg1.getName()
-                            + " " + dg1.getSurname(), Snackbar.LENGTH_LONG).show();
-                }
-            });
+            Intent resultIntent = new Intent(mView.getContext(),UserForm.class);
+            resultIntent.putExtra("edad", dg1.getDateOfBirth());
+            resultIntent.putExtra("sexo", dg1.getSex());
+            resultIntent.putExtra("dni", dg11.getPersonalNumber().split("-"));
+            mView.getContext().startActivity(resultIntent);
         }
     }
 }
