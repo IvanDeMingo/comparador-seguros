@@ -110,19 +110,25 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
                 animateFAB();
                 break;
             case R.id.fabCamera:
+                int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
 
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, CAM_REQUEST);
                 }
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 //verificamos los permisos de escritura en storage
-                verifyStoragePermissions(getActivity());
-                //Li pasem la localitzacio del fitxer al intent
-                File file = getfile();
-                mImageUri = Uri.fromFile(file);
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-                startActivityForResult(camera_intent,CAM_REQUEST);
+                else if (permission != PackageManager.PERMISSION_GRANTED) {
+                    //no tenemos permisos, entonces se lo damos al usuario
+                    ActivityCompat.requestPermissions(getActivity(),PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+                }
+                else {
+                    Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //Li pasem la localitzacio del fitxer al intent
+                    File file = getfile();
+                    mImageUri = Uri.fromFile(file);
+                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                    startActivityForResult(camera_intent, CAM_REQUEST);
+                }
                 break;
             case R.id.fabQr:
                 // Request camera permission if it's not already granted
@@ -142,14 +148,15 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    public static void verifyStoragePermissions(Activity activity) {
+    /*public static boolean verifyStoragePermissions(Activity activity) {
         // comprobamos si tenemos permiso de escritura
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             //no tenemos permisos, entonces se lo damos al usuario
             ActivityCompat.requestPermissions(activity,PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
         }
-    }
+        return  true;
+    }*/
 
     private File getfile(){
         File folder = new File(Environment.getExternalStorageDirectory(),"gft_camera");

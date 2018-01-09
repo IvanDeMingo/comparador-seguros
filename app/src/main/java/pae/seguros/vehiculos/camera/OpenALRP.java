@@ -1,6 +1,7 @@
 package pae.seguros.vehiculos.camera;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.CircularProgressDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +45,10 @@ import java.util.concurrent.ExecutionException;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 import pae.seguros.R;
+import pae.seguros.vehiculos.QrCodeScanner;
 import pae.seguros.vehiculos.VehiculosForm;
+
+
 
 /**
  * Created by Gerard on 04/01/2018.
@@ -59,6 +64,7 @@ public class OpenALRP extends android.support.v4.app.Fragment {
     String Omarca2 = null, Smarca2 = null, Oconfmarca2 = null, Sconfmarca2 = null;
     String Omodel2 = null, Smodel2 = null, Oconfmodel2 = null, Sconfmodel2 = null;
     private boolean SighthoundFinished = false;
+    static final int CAM_REQUEST = 1;
 
 
     @Override
@@ -216,6 +222,9 @@ public class OpenALRP extends android.support.v4.app.Fragment {
                 resultIntent.putExtra("omodel2", OpenALRPRes.get(7));
                 resultIntent.putExtra("oconfmodel2", OpenALRPRes.get(8));
 
+                while (!SighthoundFinished) {
+                    //System.out.println("Estic al while");
+                }
 
                 if (SighthoundFinished){
                     resultIntent.putExtra("smatricula", SighthoundRes.get(0));
@@ -229,10 +238,8 @@ public class OpenALRP extends android.support.v4.app.Fragment {
                     resultIntent.putExtra("smodel2", SighthoundRes.get(7));
                     resultIntent.putExtra("sconfmodel2", SighthoundRes.get(8));
                 }
-                while (!SighthoundFinished) {
-                    //System.out.println("Estic al while");
-                }
-                startActivity(resultIntent);
+
+                startActivityForResult(resultIntent,CAM_REQUEST);
                 dialog.dismiss();
 
 
@@ -249,6 +256,19 @@ public class OpenALRP extends android.support.v4.app.Fragment {
                 super.onFinish();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CAM_REQUEST) {
+                Intent resultIntent = new Intent();
+                getActivity().setResult(resultCode, resultIntent);
+                getActivity().finish();
+            }
+        }
     }
 
     private File getfile(){
@@ -444,6 +464,8 @@ public class OpenALRP extends android.support.v4.app.Fragment {
             if (Sconfmarca2==null) Sconfmarca2="Unknown";
             if (Sconfmodel2==null) Sconfmodel2="Unknown";
 
+            System.out.println("Paso pel check dels nulls");
+
             SighthoundRes.add(Smatricula);
             //SighthoundRes.add(Sconfmatricula);
             SighthoundRes.add(Smarca1);
@@ -470,6 +492,8 @@ public class OpenALRP extends android.support.v4.app.Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
+
+
     }
 
 }
