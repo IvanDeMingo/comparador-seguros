@@ -1,5 +1,6 @@
 package pae.seguros;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import pae.seguros.conductores.ConductoresFragment;
+import pae.seguros.introduction.IntroActivity;
 import pae.seguros.seguros.SegurosFragment;
 import pae.seguros.vehiculos.VehiculosFragment;
 
@@ -60,5 +62,8 @@ public class Dashboard extends AppCompatActivity {
 
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.seguros);
+
+        Intent introIntent = new Intent(this, IntroActivity.class);
+        startActivity(introIntent);
     }
 }
