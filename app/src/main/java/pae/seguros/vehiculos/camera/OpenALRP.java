@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,8 +12,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.CircularProgressDrawable;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +57,7 @@ import pae.seguros.vehiculos.VehiculosForm;
  * Created by Gerard on 04/01/2018.
  */
 
-public class OpenALRP extends android.support.v4.app.Fragment {
+public class OpenALRP extends Activity {
 
     private ArrayList<String> OpenALRPRes = new ArrayList<>();
     private ArrayList<String> SighthoundRes = new ArrayList<>();
@@ -67,18 +70,13 @@ public class OpenALRP extends android.support.v4.app.Fragment {
     static final int CAM_REQUEST = 1;
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.vehiculos_fragment,container,false);
-        return view;
-    }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setRetainInstance(true);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
+        //setContentView(R.layout.vehiculos_fragment);
 
-        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Wait while loading...");
         dialog.setTitle("Loading");
         dialog.setProgressStyle(dialog.STYLE_SPINNER);
@@ -210,7 +208,7 @@ public class OpenALRP extends android.support.v4.app.Fragment {
                 OpenALRPRes.add(Omodel2);
                 OpenALRPRes.add(Oconfmodel2);
 
-                Intent resultIntent = new Intent(getActivity(),VehiculosForm.class);
+                Intent resultIntent = new Intent(OpenALRP.this,VehiculosForm.class);
                 resultIntent.putExtra("omatricula", OpenALRPRes.get(0));
                 //resultIntent.putExtra("oconfmatricula", OpenALRPRes.get(1));
                 resultIntent.putExtra("omarca1", OpenALRPRes.get(1));
@@ -240,6 +238,7 @@ public class OpenALRP extends android.support.v4.app.Fragment {
                 }
 
                 startActivityForResult(resultIntent,CAM_REQUEST);
+                OpenALRP.this.finish();
                 dialog.dismiss();
 
 
@@ -264,9 +263,7 @@ public class OpenALRP extends android.support.v4.app.Fragment {
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CAM_REQUEST) {
-                Intent resultIntent = new Intent();
-                getActivity().setResult(resultCode, resultIntent);
-                getActivity().finish();
+                this.finish();
             }
         }
     }
@@ -495,5 +492,6 @@ public class OpenALRP extends android.support.v4.app.Fragment {
 
 
     }
+
 
 }

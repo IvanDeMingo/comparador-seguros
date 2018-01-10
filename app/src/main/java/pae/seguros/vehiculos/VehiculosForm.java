@@ -11,11 +11,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -101,10 +103,11 @@ public class VehiculosForm extends AppCompatActivity implements View.OnClickList
                         verifyStoragePermissions(VehiculosForm.this);
                         //Li pasem la localitzacio del fitxer al intent
                         File file = getfile();
-                        mImageUri = Uri.fromFile(file);
+                        mImageUri = FileProvider.getUriForFile(context,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                file);
                         camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
                         startActivityForResult(camera_intent,CAM_REQUEST);
-                        System.out.println("Primer punt tot ok");
 
                     }
                 });
@@ -260,7 +263,9 @@ public class VehiculosForm extends AppCompatActivity implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            setFragment(new OpenALRP());
+            //setFragment(new OpenALRP());
+            Intent myIntent = new Intent(VehiculosForm.this,OpenALRP.class);
+            startActivity(myIntent);
         }
     }
 

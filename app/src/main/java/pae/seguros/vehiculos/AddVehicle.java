@@ -11,11 +11,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +66,7 @@ public class AddVehicle extends AppCompatActivity {
             Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             //Li pasem la localitzacio del fitxer al intent
             File file = getfile();
-            mImageUri = Uri.fromFile(file);
+            mImageUri = FileProvider.getUriForFile(this, pae.seguros.BuildConfig.APPLICATION_ID + ".provider",file);
             camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
             startActivityForResult(camera_intent, CAM_REQUEST);
         }
@@ -98,8 +100,12 @@ public class AddVehicle extends AppCompatActivity {
         if (requestCode == QR_SCANNER && resultCode != QrCodeScanner.BACK) {
             Log.v("QR", "Successful scan");
         }
-        if (requestCode == CAM_REQUEST)
-            setFragment(new OpenALRP());
+        if (requestCode == CAM_REQUEST) {
+            //setFragment(new OpenALRP());
+            Intent myIntent = new Intent(AddVehicle.this, OpenALRP.class);
+            startActivity(myIntent);
+        }
+
     }
 
     private File getfile(){
@@ -110,11 +116,4 @@ public class AddVehicle extends AppCompatActivity {
         return image_file;
     }
 
-    public void setFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.frame_content, fragment);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-    }
 }

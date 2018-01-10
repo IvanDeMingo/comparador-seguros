@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ import android.view.animation.AnimationUtils;
 
 import java.io.File;
 
+import pae.seguros.BuildConfig;
 import pae.seguros.R;
 import pae.seguros.databases.AppDatabase;
 import pae.seguros.vehiculos.camera.OpenALRP;
@@ -125,7 +127,7 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
                     Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     //Li pasem la localitzacio del fitxer al intent
                     File file = getfile();
-                    mImageUri = Uri.fromFile(file);
+                    mImageUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",file);
                     camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
                     startActivityForResult(camera_intent, CAM_REQUEST);
                 }
@@ -194,24 +196,16 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
         refreshList();
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == CAM_REQUEST)
-                setFragment(new OpenALRP());
+            if (requestCode == CAM_REQUEST) {
+                //setFragment(new OpenALRP());
+                Intent myIntent = new Intent(getActivity(),OpenALRP.class);
+                startActivity(myIntent);
+            }
         }
     }
 
     public void refreshList() {
         mAdapter.updateCars(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars());
     }
-
-    public void setFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.frame_content, fragment);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-    }
-
-
-
 
 }
