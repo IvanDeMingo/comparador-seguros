@@ -22,8 +22,6 @@ import android.widget.ImageView;
 
 import java.io.File;
 
-import pae.seguros.MainActivity;
-
 /**
  * Created by Gerard on 04/01/2018.
  */

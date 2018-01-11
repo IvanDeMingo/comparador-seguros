@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ import android.view.animation.AnimationUtils;
 
 import java.io.File;
 
+import pae.seguros.BuildConfig;
 import pae.seguros.R;
 import pae.seguros.databases.AppDatabase;
 import pae.seguros.vehiculos.camera.OpenALRP;
@@ -110,19 +112,25 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
                 animateFAB();
                 break;
             case R.id.fabCamera:
+                int permission = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
 
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, CAM_REQUEST);
                 }
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 //verificamos los permisos de escritura en storage
-                verifyStoragePermissions(getActivity());
-                //Li pasem la localitzacio del fitxer al intent
-                File file = getfile();
-                mImageUri = Uri.fromFile(file);
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-                startActivityForResult(camera_intent,CAM_REQUEST);
+                else if (permission != PackageManager.PERMISSION_GRANTED) {
+                    //no tenemos permisos, entonces se lo damos al usuario
+                    ActivityCompat.requestPermissions(getActivity(),PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+                }
+                else {
+                    Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //Li pasem la localitzacio del fitxer al intent
+                    File file = getfile();
+                    mImageUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",file);
+                    camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                    startActivityForResult(camera_intent, CAM_REQUEST);
+                }
                 break;
             case R.id.fabQr:
                 // Request camera permission if it's not already granted
@@ -142,14 +150,15 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-    public static void verifyStoragePermissions(Activity activity) {
+    /*public static boolean verifyStoragePermissions(Activity activity) {
         // comprobamos si tenemos permiso de escritura
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (permission != PackageManager.PERMISSION_GRANTED) {
             //no tenemos permisos, entonces se lo damos al usuario
             ActivityCompat.requestPermissions(activity,PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
         }
-    }
+        return  true;
+    }*/
 
     private File getfile(){
         File folder = new File(Environment.getExternalStorageDirectory(),"gft_camera");
@@ -187,24 +196,16 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         super.onActivityResult(requestCode, resultCode, data);
         refreshList();
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == CAM_REQUEST)
-                setFragment(new OpenALRP());
+            if (requestCode == CAM_REQUEST) {
+                //setFragment(new OpenALRP());
+                Intent myIntent = new Intent(getActivity(),OpenALRP.class);
+                startActivity(myIntent);
+            }
         }
     }
 
     public void refreshList() {
         mAdapter.updateCars(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars());
     }
-
-    public void setFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.replace(R.id.frame_content, fragment);
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
-    }
-
-
-
 
 }

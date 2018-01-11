@@ -3,10 +3,10 @@ package pae.seguros.conductores;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +18,10 @@ import java.security.KeyStoreSpi;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.cert.CertificateException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.tsenger.androsmex.mrtd.DG11;
 import de.tsenger.androsmex.mrtd.DG1_Dnie;
@@ -173,15 +177,31 @@ public class DniNfcAdapter implements android.nfc.NfcAdapter.ReaderCallback {
 
     private void showInfo() {
         if (mView != null && dg1 != null && dg11 != null) {
-            // TODO: Guardar datos en la BD
-            Log.v("NFC", dg11.getPersonalNumber());
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar.make(mView, dg11.getPersonalNumber() + " - " + dg1.getName()
-                            + " " + dg1.getSurname(), Snackbar.LENGTH_LONG).show();
-                }
-            });
+            String[] surname = dg1.getSurname().split(" ");
+            String formattedDate = dg1.getDateOfBirth().replace(".","");
+
+            try {
+                DateFormat originalFormat = new SimpleDateFormat("dd MMM yyyy");
+                DateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = originalFormat.parse(dg1.getDateOfBirth().replace(".",""));
+                formattedDate = targetFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Intent resultIntent = new Intent(mActivity,UserForm.class);
+            resultIntent.putExtra("dni", dg11.getPersonalNumber().replace("-",""));
+            resultIntent.putExtra("name", dg1.getName());
+            resultIntent.putExtra("surname", surname[0]);
+            resultIntent.putExtra("lastname", surname[1]);
+            resultIntent.putExtra("nationality", dg1.getNationality());
+            resultIntent.putExtra("home", dg11.getAddress(DG11.ADDR_LOCALIDAD));
+            resultIntent.putExtra("birthplace", dg11.getBirthPlace());
+            resultIntent.putExtra("address", dg11.getAddress(DG11.ADDR_DIRECCION));
+            resultIntent.putExtra("CAN", canNumber);
+            resultIntent.putExtra("birthday", formattedDate);
+            resultIntent.putExtra("sex", dg1.getSex());
+            mActivity.startActivityForResult(resultIntent,ConductoresFragment.NFC);
         }
     }
 }

@@ -52,5 +52,7 @@
         </provider>
         <activity android:name=".introduction.IntroActivity"
             android:theme="@style/IntroTheme" />
+        <activity android:name=".vehiculos.camera.OpenALRP"
+            android:label="CameraAPIs" />
     </application>
 </manifest>

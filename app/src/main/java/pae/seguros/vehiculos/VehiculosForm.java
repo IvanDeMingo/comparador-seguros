@@ -11,14 +11,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -30,13 +34,25 @@ import pae.seguros.databases.AppDatabase;
 import pae.seguros.vehiculos.camera.Camera;
 import pae.seguros.vehiculos.camera.OpenALRP;
 
+import static pae.seguros.vehiculos.QrCodeScanner.AUTONOMY;
+import static pae.seguros.vehiculos.QrCodeScanner.CATEGORY;
+import static pae.seguros.vehiculos.QrCodeScanner.EMISSIONS_LVL_EUR;
+import static pae.seguros.vehiculos.QrCodeScanner.GAS;
+import static pae.seguros.vehiculos.QrCodeScanner.LICENSE_NUMBER;
+import static pae.seguros.vehiculos.QrCodeScanner.LICENSE_YEAR;
+import static pae.seguros.vehiculos.QrCodeScanner.MAKER;
+import static pae.seguros.vehiculos.QrCodeScanner.MODEL;
+import static pae.seguros.vehiculos.QrCodeScanner.POWER;
+import static pae.seguros.vehiculos.QrCodeScanner.QR_RESULT;
+
 /**
  * Created by Gerard on 04/01/2018.
  */
 
-public class VehiculosForm extends AppCompatActivity {
+public class VehiculosForm extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMatricula, editTextModel1, editTextModel2,editTextMarca1,editTextMarca2;
     private Spinner spinnerModel, spinnerMarca;
+    private Button submit;
     private Uri mImageUri;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -58,6 +74,8 @@ public class VehiculosForm extends AppCompatActivity {
         editTextMatricula = (EditText) findViewById(R.id.editTextMatricula);
         spinnerMarca = (Spinner) findViewById(R.id.spinnerMarca);
         spinnerModel = (Spinner) findViewById(R.id.spinnerModel);
+        submit = (Button) findViewById(R.id.buttonSubmit);
+
 
         Bundle parameters = getIntent().getExtras();
 
@@ -85,10 +103,11 @@ public class VehiculosForm extends AppCompatActivity {
                         verifyStoragePermissions(VehiculosForm.this);
                         //Li pasem la localitzacio del fitxer al intent
                         File file = getfile();
-                        mImageUri = Uri.fromFile(file);
+                        mImageUri = FileProvider.getUriForFile(context,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                file);
                         camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
                         startActivityForResult(camera_intent,CAM_REQUEST);
-                        System.out.println("Primer punt tot ok");
 
                     }
                 });
@@ -188,9 +207,38 @@ public class VehiculosForm extends AppCompatActivity {
                 spinnerMarca.setAdapter(adaptermarca);
 
                 //Si cliquem el submit guardem el resultat a la BD
+                submit.setOnClickListener(this);
 
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == submit) {
+            Bundle resultBundle = parseInfo();
+            Intent resultIntent = new Intent(this,VehiculosFormNoSpinner.class);
+            resultIntent.putExtra(String.valueOf(QR_RESULT), resultBundle);
+            //Serveix per saber de lactivity don vens el CAM_REQUEST en aquest cas seria el VehiculosFormNoSpinner
+            startActivityForResult(resultIntent, CAM_REQUEST);
+
+        }
+    }
+
+    private Bundle parseInfo() {
+        Bundle bundle = new Bundle();
+
+        bundle.putString(LICENSE_YEAR, "");
+        bundle.putString(LICENSE_NUMBER, editTextMatricula.getText().toString());
+        bundle.putString(MAKER, spinnerMarca.getSelectedItem().toString());
+        bundle.putString(MODEL, spinnerModel.getSelectedItem().toString());
+        bundle.putString(GAS, "");
+        bundle.putString(EMISSIONS_LVL_EUR, "");
+        bundle.putString(POWER, "");
+        bundle.putString(CATEGORY, "");
+        bundle.putString(AUTONOMY, "");
+
+        return bundle;
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -215,7 +263,9 @@ public class VehiculosForm extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            setFragment(new OpenALRP());
+            //setFragment(new OpenALRP());
+            Intent myIntent = new Intent(VehiculosForm.this,OpenALRP.class);
+            startActivity(myIntent);
         }
     }
 
@@ -225,5 +275,13 @@ public class VehiculosForm extends AppCompatActivity {
 
         fragmentTransaction.replace(R.id.frame_content, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(Activity.RESULT_OK);
+        finish();
+
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -74,6 +75,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             else if (selectedItem < 0){
                 selectedItem = getAdapterPosition();
                 cv.setBackgroundColor(Color.parseColor("#ccff00"));
+            }
+            else {
+                Toast.makeText(v.getContext(), "You have already selected a driver, first deselect him to be able to choose another",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }
