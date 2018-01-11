@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -78,6 +79,10 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
             else if (selectedItem < 0){
                 selectedItem = getAdapterPosition();
                 cv.setBackgroundColor(Color.parseColor("#ccff00"));
+            }
+            else {
+                Toast.makeText(v.getContext(), "You have already selected a car, first deselect him to be able to choose another",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }

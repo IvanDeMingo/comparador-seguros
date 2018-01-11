@@ -18,6 +18,10 @@ import java.security.KeyStoreSpi;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.cert.CertificateException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.tsenger.androsmex.mrtd.DG11;
 import de.tsenger.androsmex.mrtd.DG1_Dnie;
@@ -173,11 +177,31 @@ public class DniNfcAdapter implements android.nfc.NfcAdapter.ReaderCallback {
 
     private void showInfo() {
         if (mView != null && dg1 != null && dg11 != null) {
-            Intent resultIntent = new Intent(mView.getContext(),UserForm.class);
-            resultIntent.putExtra("edad", dg1.getDateOfBirth());
-            resultIntent.putExtra("sexo", dg1.getSex());
-            resultIntent.putExtra("dni", dg11.getPersonalNumber().split("-"));
-            mView.getContext().startActivity(resultIntent);
+            String[] surname = dg1.getSurname().split(" ");
+            String formattedDate = dg1.getDateOfBirth().replace(".","");
+
+            try {
+                DateFormat originalFormat = new SimpleDateFormat("dd MMM yyyy");
+                DateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = originalFormat.parse(dg1.getDateOfBirth().replace(".",""));
+                formattedDate = targetFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Intent resultIntent = new Intent(mActivity,UserForm.class);
+            resultIntent.putExtra("dni", dg11.getPersonalNumber().replace("-",""));
+            resultIntent.putExtra("name", dg1.getName());
+            resultIntent.putExtra("surname", surname[0]);
+            resultIntent.putExtra("lastname", surname[1]);
+            resultIntent.putExtra("nationality", dg1.getNationality());
+            resultIntent.putExtra("home", dg11.getAddress(DG11.ADDR_LOCALIDAD));
+            resultIntent.putExtra("birthplace", dg11.getBirthPlace());
+            resultIntent.putExtra("address", dg11.getAddress(DG11.ADDR_DIRECCION));
+            resultIntent.putExtra("CAN", canNumber);
+            resultIntent.putExtra("birthday", formattedDate);
+            resultIntent.putExtra("sex", dg1.getSex());
+            mActivity.startActivityForResult(resultIntent,ConductoresFragment.NFC);
         }
     }
 }

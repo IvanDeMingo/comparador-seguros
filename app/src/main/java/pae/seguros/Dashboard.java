@@ -1,14 +1,14 @@
 package pae.seguros;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -63,7 +63,22 @@ public class Dashboard extends AppCompatActivity {
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.seguros);
 
-        Intent introIntent = new Intent(this, IntroActivity.class);
-        startActivity(introIntent);
+        SharedPreferences prefe=getSharedPreferences("data", Context.MODE_PRIVATE);
+        if (prefe.getString("wasLaunched","false").equals("false")) {
+            SharedPreferences.Editor editor=prefe.edit();
+            editor.putString("wasLaunched", "true");
+            editor.commit();
+            Intent introIntent = new Intent(this, IntroActivity.class);
+            startActivity(introIntent);
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ConductoresFragment.NFC) {
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_content, ConductoresFragment.newInstance(true));
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+        }
     }
 }

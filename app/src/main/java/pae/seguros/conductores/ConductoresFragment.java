@@ -1,14 +1,19 @@
 package pae.seguros.conductores;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 
 import pae.seguros.R;
 import pae.seguros.conductores.dni_ocr.DniOcrMain;
@@ -43,7 +49,7 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
 
     private static final int OCR = 0;
-    private static final int NFC = 1;
+    public static final int NFC = 1;
     private static final int FORM = 2;
 
     @Nullable
@@ -109,6 +115,8 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
                 }
                 break;
             case R.id.fabNfc:
+                if (!checkNFCAvailable()) return;
+                readDNIe();
                 break;
             case R.id.fabData:
                 Intent intent = new Intent(getContext(), UserForm.class);
@@ -144,10 +152,78 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
     public void refreshList() {
         mAdapter.updateUsers(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser());
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         refreshList();
+        if (requestCode == NFC) {
+            initLayout();
+        }
     }
 
+    private void readDNIe() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+
+        final Activity activity = getActivity();
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        final View dialog = layoutInflater.inflate(R.layout.nfc_dialog, null);
+
+        builder.setView(dialog)
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        StringBuilder can = new StringBuilder(
+                                ((EditText) dialog.findViewById(R.id.edit_text_can_nfc))
+                                        .getText().toString());
+                        while (can.length() < 6)
+                            can.insert(0, '0');
+
+                        DniNfcAdapter nfcAdapter = new DniNfcAdapter(activity);
+                        nfcAdapter.setCanNumber(can.toString());
+                        nfcAdapter.setView(mView);
+                    }
+                })
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .setTitle(R.string.nfc_dialog_title)
+                .create().show();
+    }
+
+    private boolean checkNFCAvailable() {
+        NfcManager manager = (NfcManager) getActivity().getSystemService(Context.NFC_SERVICE);
+        NfcAdapter adapter = null;
+        if (manager != null) {
+            adapter = manager.getDefaultAdapter();
+        }
+        if (adapter != null) {
+            if (!adapter.isEnabled()) {
+                showErrorDialog(getString(R.string.nfc_no_activado));
+                return false;
+            }
+        } else {
+            showErrorDialog(getString(R.string.sin_nfc));
+            return false;
+        }
+        return true;
+    }
+
+    private void showErrorDialog(String message) {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.error)
+                .setMessage(message)
+                .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create()
+                .show();
+    }
 }

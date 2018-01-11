@@ -6,12 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 
@@ -19,7 +17,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import pae.seguros.Dashboard;
 import pae.seguros.R;
 import pae.seguros.databases.AppDatabase;
 import pae.seguros.databases.User;
@@ -57,17 +54,21 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             editTextDNI.setText(extras.getString("dni"));
-            editTextDob.setText(extras.getString("edad"), TextView.BufferType.EDITABLE);
-            if (extras.getString("sexo").equals("M")) spinnerGender.setSelection(0);
+            editTextName.setText(extras.getString("name"));
+            editTextSurname.setText(extras.getString("surname"));
+            editTextLastname.setText(extras.getString("lastname"));
+            editTextPlace.setText(extras.getString("home"));
+            editTextDob.setText(extras.getString("birthday"));
+            if (extras.getString("sex").equals("M")||extras.getString("sex").equals("male")) spinnerGender.setSelection(0);
             else spinnerGender.setSelection(1);
         }
 
         awesomeValidation.addValidation(this, R.id.editTextDNI, "^(([0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET])|([XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]))$", R.string.dnierror);
-        awesomeValidation.addValidation(this, R.id.editTextName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
-        awesomeValidation.addValidation(this, R.id.editTextSurname, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.surnameerror);
-        awesomeValidation.addValidation(this, R.id.editTextLastname, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.lastnameerror);
+        awesomeValidation.addValidation(this, R.id.editTextName, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.nameerror);
+        awesomeValidation.addValidation(this, R.id.editTextSurname, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.surnameerror);
+        awesomeValidation.addValidation(this, R.id.editTextLastname, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.lastnameerror);
         awesomeValidation.addValidation(this, R.id.editTextDob, "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$", R.string.dateerror);
-        awesomeValidation.addValidation(this, R.id.editTextPlace, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.placeerror);
+        awesomeValidation.addValidation(this, R.id.editTextPlace, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.placeerror);
 
         buttonSubmit.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);

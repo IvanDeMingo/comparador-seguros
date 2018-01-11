@@ -51,6 +51,7 @@ public class DniOcrMain extends Activity {
         DatosOCR datosOCR = new DatosOCR(this);
         ReentrantLock lock = new ReentrantLock();
         pantalla = new Pantalla(this, datosOCR, lock);
+        pantalla.setActivity(this);
         preview = new Preview(this, datosOCR, pantalla, lock);
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
@@ -62,7 +63,6 @@ public class DniOcrMain extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("entra","entra");
         if (resultCode == Activity.RESULT_OK) {
             Intent resultIntent = new Intent();
             setResult(resultCode, resultIntent);
@@ -212,6 +212,8 @@ class Pantalla extends View {
     private int confirmación = 0;
     private int errores = 0;
 
+    private Activity activity;
+
     Pantalla(Context context, DatosOCR datosOCR, ReentrantLock lock) {
         super(context);
         this.datosOCR = datosOCR;
@@ -309,16 +311,28 @@ class Pantalla extends View {
             if ((System.currentTimeMillis() - tiempo) / 1000
                     >= SEGUNDOS_A_MOSTRAR_DÍGITO) {
                 Intent resultIntent = new Intent(this.getContext(),UserForm.class);
-                resultIntent.putExtra("edad", datosOCR.getDoB());
-                resultIntent.putExtra("sexo", String.valueOf(sexo));
                 resultIntent.putExtra("dni", datosOCR.getDNI());
-                this.getContext().startActivity(resultIntent);
+                resultIntent.putExtra("name", "");
+                resultIntent.putExtra("surname", "");
+                resultIntent.putExtra("lastname", "");
+                resultIntent.putExtra("nationality", "");
+                resultIntent.putExtra("home", "");
+                resultIntent.putExtra("birthplace", "");
+                resultIntent.putExtra("address", "");
+                resultIntent.putExtra("CAN", "");
+                resultIntent.putExtra("birthday", datosOCR.getDoB());
+                resultIntent.putExtra("sex",  String.valueOf(sexo));
+                activity.startActivityForResult(resultIntent,1);
                 dígito = sexo = '?'; edad = 0;
             }
         }
 
         if (lock.isLocked())
             lock.unlock();
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }
 
