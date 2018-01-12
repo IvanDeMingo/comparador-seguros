@@ -28,7 +28,7 @@
         android:layout_gravity="center"
 
         android:id="@+id/companiaactual"
-        android:text="Seleccione su compañia actual"
+        android:text="Select your current insurance company"
         android:textSize="20sp"
         android:paddingTop="12dp"/>
 
@@ -43,7 +43,7 @@
         android:layout_gravity="center"
 
         android:id="@+id/partesano"
-        android:text="Numero de partes por año"
+        android:text="Number of compensation claims"
         android:textSize="20sp"
         android:paddingTop="12dp"/>
     <Spinner
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Fecha renovación de tu seguro"
+        android:text="Year of Insurance renovation"
         android:textSize="20sp"
         android:paddingTop="12dp"/>
     <TextView
@@ -65,7 +65,7 @@
         android:layout_gravity="center"
         android:text="2018"
         android:id="@+id/yeartext"
-
+        android:textColor="@android:color/holo_blue_dark"
         android:textSize="20sp"
         android:paddingTop="12dp"/>
 
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Tipo de seguro a contratar"
+        android:text="Select the type of insurance "
         android:textSize="20sp"
         android:paddingTop="12dp"/>
 
@@ -97,7 +97,7 @@
     <android.support.v7.widget.AppCompatButton
 
         android:id="@+id/calcularSeguroButton"
-        android:text="Calcular seguro"
+        android:text="search insurance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

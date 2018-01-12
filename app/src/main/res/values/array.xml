@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tiposeguro">
-        <item>Mostrar todo</item>
-        <item>Todo riesgo</item>
-        <item>Todo riesgo con franquicia</item>
-        <item>Terceros ampliado</item>
-        <item>Terceros</item>
+        <item>Show all</item>
+        <item>All risk</item>
+        <item>All risk with franchise</item>
+        <item>Third party insurance</item>
+        <item>Third party insurance with franchise</item>
     </string-array>
 
 
     <string-array name="partesporano">
-        <item>Nunca</item>
-        <item>Varias veces en el útimo año</item>
-        <item>1 en el último añoo</item>
-        <item>Hace entre 1 y 3 años</item>
-        <item>Hace más de 5 años</item>
+        <item>Never</item>
+        <item>Multiple times in the last year</item>
+        <item>1 in the last year</item>
+        <item>Between 1 or 3 years ago</item>
+        <item>More than 5 years</item>
     </string-array>
 
 
 
     <string-array name="companiaactual">
-        <item>Ninguna</item>
+        <item>None</item>
         <item>Axa</item>
         <item>Fiatc</item>
         <item>Linea Directa</item>
