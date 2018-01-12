@@ -17,7 +17,9 @@ import android.widget.TextView;
 import java.util.Random;
 
 import pae.seguros.R;
+import pae.seguros.databases.AppDatabase;
 import pae.seguros.databases.Car;
+import pae.seguros.databases.Insurance;
 import pae.seguros.databases.User;
 
 public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
@@ -57,6 +59,7 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
+
         });
         bCalcularSeguro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +81,8 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
 
             if(currentCar!=null && currentUser!=null)
             {
+
+                AppDatabase.getDatabase(getContext()).insuranceDao().addInsurance(new Insurance(currentUser.dni, currentCar.plate));
                 int seed = (currentUser.dni + currentCar.plate).hashCode();
                 Intent intent = new Intent(getActivity().getApplicationContext(), BuquedaSeguros.class);
                 intent.putExtra("seed",seed);
