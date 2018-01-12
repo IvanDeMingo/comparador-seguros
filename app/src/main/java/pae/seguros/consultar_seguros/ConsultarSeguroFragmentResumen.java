@@ -13,6 +13,7 @@ import android.widget.TextView;
 import pae.seguros.R;
 
 public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
+    private Button bCalcularSeguro;
     private TextView selecteddriver, selectedvehicle;
     private View mView;
     private ConsultarSeguroActivity supActivity;
@@ -21,6 +22,8 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.consultar_seguro_page3, container, false);
 
+        selecteddriver = (TextView) mView.findViewById(R.id.selecteddriver);
+        selectedvehicle = (TextView) mView.findViewById(R.id.selectedvehicle);
 
         return mView;
     }
@@ -32,7 +35,7 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
             supActivity = (ConsultarSeguroActivity) getActivity();
             if(supActivity.getConductor()!=null)
                 selecteddriver.setText(supActivity.getConductor().dni);
-               //Log.println(Log.DEBUG,"con",supActivity.getConductor().name);
+                Log.println(Log.DEBUG,"con",supActivity.getConductor().name);
             if(supActivity.getCoche()!=null)
                 selectedvehicle.setText(supActivity.getCoche().plate);
                // Log.println(Log.DEBUG,"coc", supActivity.getCoche().plate);
@@ -40,12 +43,6 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
 
         super.setMenuVisibility(visible);
     }
-
-
-
-
-
-
 
 
 
