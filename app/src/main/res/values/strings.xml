@@ -76,4 +76,6 @@
     <string name="intro_slide_2_description">Guarda la información de tus vehículos haciéndoles una fotografía o escaneando el código QR de la etiqueta de sostenibilidad de la DGT.</string>
     <string name="intro_slide_3_title">Registra conductores</string>
     <string name="intro_slide_3_description">Almacena información de los conductores que conducirán tus vehículos haciendo una fotografía a sus DNIs o leyéndolos con NFC.</string>
+
+
 </resources>

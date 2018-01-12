@@ -3,9 +3,10 @@
     package="pae.seguros">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.NFC" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -25,22 +26,28 @@
         <activity android:name=".consultar_seguros.ConsultarSeguroActivity" />
         <activity android:name=".vehiculos.AddVehicle" />
         <activity android:name=".vehiculos.QrCodeScanner" />
-        <activity android:name=".conductores.AddDriver" >
+        <activity android:name=".conductores.AddDriver">
             <meta-data
                 android:name="android.nfc.action.TAG_DISCOVERED"
-                android:resource="@xml/filter_nfc"/>
+                android:resource="@xml/filter_nfc" />
+
             <intent-filter>
-                <action android:name="android.nfc.action.TAG_DISCOVERED"/>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
             </intent-filter>
         </activity>
-        <activity android:name=".conductores.dni_ocr.DniOcrMain"
+        <activity
+            android:name=".conductores.dni_ocr.DniOcrMain"
             android:label="@string/OcrDNI" />
-        <activity android:name=".conductores.UserForm"
+        <activity
+            android:name=".conductores.UserForm"
             android:label="@string/UserForm" />
-        <activity android:name=".vehiculos.VehiculosForm"
-            android:label="VehicleForm"/>
-        <activity android:name=".vehiculos.VehiculosFormNoSpinner"
-            android:label="VehiculosFormNoSpinner"/>
+        <activity
+            android:name=".vehiculos.VehiculosForm"
+            android:label="VehicleForm" />
+        <activity
+            android:name=".vehiculos.VehiculosFormNoSpinner"
+            android:label="VehiculosFormNoSpinner" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -48,11 +55,16 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
-        <activity android:name=".introduction.IntroActivity"
+
+        <activity
+            android:name=".introduction.IntroActivity"
             android:theme="@style/IntroTheme" />
-        <activity android:name=".vehiculos.camera.OpenALRP"
+        <activity
+            android:name=".vehiculos.camera.OpenALRP"
             android:label="CameraAPIs" />
+        <activity android:name=".consultar_seguros.BuquedaSeguros"></activity>
     </application>
+
 </manifest>

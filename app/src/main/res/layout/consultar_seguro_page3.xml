@@ -22,11 +22,92 @@
         android:paddingTop="12dp"/>
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
 
-    <FrameLayout
+        android:id="@+id/companiaactual"
+        android:text="Seleccione su compañia actual"
+        android:textSize="20sp"
+        android:paddingTop="12dp"/>
+
+    <Spinner
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/seguros_content"/>
+        android:layout_height="wrap_content"
+        android:entries="@array/companiaactual"/>
+    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
 
+        android:id="@+id/partesano"
+        android:text="Numero de partes por año"
+        android:textSize="20sp"
+        android:paddingTop="12dp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+
+        android:entries="@array/partesporano"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Fecha renovación de tu seguro"
+        android:textSize="20sp"
+        android:paddingTop="12dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="2018"
+        android:id="@+id/yeartext"
+
+        android:textSize="20sp"
+        android:paddingTop="12dp"/>
+
+    <SeekBar
+        android:id="@+id/yearseekbar"
+
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="90px"
+        android:max="52"
+        android:progress="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Tipo de seguro a contratar"
+        android:textSize="20sp"
+        android:paddingTop="12dp"/>
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="80px"
+
+        android:entries="@array/tiposeguro"
+        />
+
+    <android.support.v7.widget.AppCompatButton
+
+        android:id="@+id/calcularSeguroButton"
+        android:text="Calcular seguro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/custom_button"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="36dp"
+        android:paddingStart="36dp"
+        android:layout_margin="6dp"/>
 
 </LinearLayout>
