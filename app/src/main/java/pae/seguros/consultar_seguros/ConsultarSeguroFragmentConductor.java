@@ -9,11 +9,12 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.util.Log;
 
 import pae.seguros.R;
 import pae.seguros.conductores.AddDriver;
 import pae.seguros.conductores.ConductoresFragment;
-
+import pae.seguros.databases.User;
 public class ConsultarSeguroFragmentConductor extends ConsultarSeguroFragment {
     private ConductoresFragment fragment;
     @Nullable
@@ -45,10 +46,16 @@ public class ConsultarSeguroFragmentConductor extends ConsultarSeguroFragment {
         t.commit();
     }
 
+    public  User getSelected()
+    {
+       return fragment.getSelected();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         fragment.refreshList();
+
     }
 
 }

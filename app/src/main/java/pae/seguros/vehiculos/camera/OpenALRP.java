@@ -43,12 +43,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpResponse;
-import pae.seguros.R;
-import pae.seguros.vehiculos.QrCodeScanner;
 import pae.seguros.vehiculos.VehiculosForm;
 
 
@@ -224,7 +220,7 @@ public class OpenALRP extends Activity {
                     //System.out.println("Estic al while");
                 }
 
-                if (SighthoundFinished){
+                    if (SighthoundFinished){
                     resultIntent.putExtra("smatricula", SighthoundRes.get(0));
                     //resultIntent.putExtra("sconfmatricula", SighthoundRes.get(1));
                     resultIntent.putExtra("smarca1", SighthoundRes.get(1));

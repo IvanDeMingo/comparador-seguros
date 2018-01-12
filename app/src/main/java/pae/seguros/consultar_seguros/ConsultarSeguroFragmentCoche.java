@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 import pae.seguros.R;
 import pae.seguros.vehiculos.AddVehicle;
 import pae.seguros.vehiculos.VehiculosFragment;
-
+import pae.seguros.databases.Car;
 public class ConsultarSeguroFragmentCoche extends ConsultarSeguroFragment {
     private VehiculosFragment fragment;
     @Nullable
@@ -45,9 +46,14 @@ public class ConsultarSeguroFragmentCoche extends ConsultarSeguroFragment {
         t.commit();
     }
 
+    public Car getSelected()
+    {
+        return fragment.getSelected();
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         fragment.refreshList();
+
     }
 }

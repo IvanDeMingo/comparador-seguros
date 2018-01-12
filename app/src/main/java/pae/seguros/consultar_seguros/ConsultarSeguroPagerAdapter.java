@@ -27,4 +27,6 @@ public class ConsultarSeguroPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return NUM_PAGES;
     }
+
+
 }

@@ -153,6 +153,11 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
         mAdapter.updateUsers(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser());
     }
 
+    public pae.seguros.databases.User getSelected()
+    {
+       return mAdapter.getSelectedItem();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

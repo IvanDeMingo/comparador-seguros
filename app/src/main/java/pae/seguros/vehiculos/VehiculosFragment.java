@@ -104,7 +104,10 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    @Override
+    public pae.seguros.databases.Car getSelected()
+    {
+        return mAdapter.getSelectedItem();
+    }
     public void onClick(View view) {
         int id = view.getId();
         switch (id) {

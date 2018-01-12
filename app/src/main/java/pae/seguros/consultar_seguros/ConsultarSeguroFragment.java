@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 
 public class ConsultarSeguroFragment extends Fragment {
 
+
     public static ConsultarSeguroFragment newInstance(int page) {
         ConsultarSeguroFragment fragment;
 
@@ -22,4 +23,11 @@ public class ConsultarSeguroFragment extends Fragment {
 
         return fragment;
     }
+
+
+
+
+
+
+
 }

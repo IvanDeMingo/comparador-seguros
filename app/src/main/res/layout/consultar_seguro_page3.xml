@@ -4,19 +4,29 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:id="@+id/selectedvehicle"
-        android:text="@string/selected_vehicle"/>
+        android:text="@string/vehicle_not_selected"
+        android:textSize="24sp"
+        android:paddingTop="12dp"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
         android:id="@+id/selecteddriver"
-        android:text="@string/selected_driver"/>
-    <Button
+        android:text="@string/driver_not_selected"
+        android:textSize="24sp"
+        android:paddingTop="12dp"/>
+
+
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/bCalcularSeguro"
-        android:text="@string/calculate_insurance"/>
+        android:layout_height="match_parent"
+        android:id="@+id/seguros_content"/>
+
 
 </LinearLayout>
