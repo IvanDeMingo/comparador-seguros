@@ -22,6 +22,9 @@ public interface UserDao {
     @Query("select * from user where dni = :dni")
     public List<User> getUser(String dni);
 
+    @Query("select * from user where dni != :dni")
+    public List<User> getExtraDrivers(String dni);
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateUser(User user);
 

@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import pae.seguros.R;
@@ -24,7 +28,7 @@ import pae.seguros.databases.User;
 
 public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
     private Button bCalcularSeguro;
-    private TextView selecteddriver, selectedvehicle, yeartext;
+    private TextView selecteddriver, selectedvehicle, yeartext,occasionalDrivers;
     private SeekBar seek;
     private View mView;
     private RecyclerView seguros;
@@ -32,6 +36,7 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
     private Car currentCar;
     private User currentUser;
     private Random rnd;
+    private MultiSelectionSpinner spinner;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,9 +45,12 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
         mView = inflater.inflate(R.layout.consultar_seguro_page3, container, false);
         selecteddriver = (TextView) mView.findViewById(R.id.selecteddriver);
         selectedvehicle = (TextView) mView.findViewById(R.id.selectedvehicle);
+        occasionalDrivers = (TextView) mView.findViewById(R.id.occasionalDrivers);
         bCalcularSeguro = (Button) mView.findViewById(R.id.calcularSeguroButton);
         seek = (SeekBar) mView.findViewById(R.id.yearseekbar);
         yeartext = (TextView) mView.findViewById(R.id.yeartext);
+        spinner = (MultiSelectionSpinner) mView.findViewById(R.id.mySpinner1);
+        spinner.setEnabled(false);
 
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -81,7 +89,7 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
 
             if(currentCar!=null && currentUser!=null)
             {
-
+                List<String> extraDriversSelected = spinner.getSelectedStrings();
                 AppDatabase.getDatabase(getContext()).insuranceDao().addInsurance(new Insurance(currentUser.dni, currentCar.plate));
                 int seed = (currentUser.dni + currentCar.plate).hashCode();
                 Intent intent = new Intent(getActivity().getApplicationContext(), BuquedaSeguros.class);
@@ -99,14 +107,24 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
             if (visible) {
                 supActivity = (ConsultarSeguroActivity) getActivity();
                 if (supActivity.getConductor() != null) {
-                    currentCar = supActivity.getCoche();
+                    currentUser = supActivity.getConductor();
                     selecteddriver.setText(supActivity.getConductor().name + " " + supActivity.getConductor().surname +
                             " " + supActivity.getConductor().lastname + " " + supActivity.getConductor().dni);
                 }
                 if (supActivity.getCoche() != null) {
-                    currentUser = supActivity.getConductor();
+                    currentCar = supActivity.getCoche();
                     selectedvehicle.setText(supActivity.getCoche().company + " " +
                             supActivity.getCoche().plate);
+                }
+                if (currentUser != null) {
+                    List<String> extraDrivers = parseDrivers(AppDatabase.getDatabase(this.getContext()).userDao().getExtraDrivers(currentUser.dni));
+                    spinner.setItems(extraDrivers);
+                    spinner.setSelection(Collections.<String>emptyList());
+                    if (!extraDrivers.isEmpty()) spinner.setEnabled(true);
+                    occasionalDrivers.setText("Occasional drivers:");
+                }
+                else {
+                    occasionalDrivers.setText("Select a main driver to be able to select occasional drivers");
                 }
             }
 
@@ -114,6 +132,14 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
         super.setMenuVisibility(visible);
     }
 
-
+    private List<String> parseDrivers(List<User> extraUser) {
+        List<String> extraDrivers = new ArrayList<String>();
+        for (Iterator<User> i = extraUser.iterator(); i.hasNext();) {
+            User user = i.next();
+            String item = user.name + " " + user.surname + " "+ user.lastname;
+            extraDrivers.add(item);
+        }
+        return extraDrivers;
+    }
 
 }
