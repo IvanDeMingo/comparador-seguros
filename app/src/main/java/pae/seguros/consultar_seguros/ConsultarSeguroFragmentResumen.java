@@ -118,9 +118,11 @@ public class ConsultarSeguroFragmentResumen extends ConsultarSeguroFragment {
                 }
                 if (currentUser != null) {
                     List<String> extraDrivers = parseDrivers(AppDatabase.getDatabase(this.getContext()).userDao().getExtraDrivers(currentUser.dni));
-                    spinner.setItems(extraDrivers);
-                    spinner.setSelection(Collections.<String>emptyList());
-                    if (!extraDrivers.isEmpty()) spinner.setEnabled(true);
+                    if (!extraDrivers.isEmpty()) {
+                        spinner.setItems(extraDrivers);
+                        spinner.setSelection(Collections.<String>emptyList());
+                        spinner.setEnabled(true);
+                    }
                     occasionalDrivers.setText("Occasional drivers:");
                 }
                 else {

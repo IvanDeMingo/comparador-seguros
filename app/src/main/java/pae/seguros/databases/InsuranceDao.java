@@ -25,6 +25,12 @@ public interface InsuranceDao {
     @Query("delete from insurance")
     void removeAllInsurances();
 
+    @Query("delete FROM insurance WHERE userDni=:userDni")
+    void removeInsuranceByUser(final String userDni);
+
+    @Query("delete FROM insurance WHERE carPlate=:carPlate")
+    void removeInsuranceByCar(final String carPlate);
+
     @Query("SELECT * FROM insurance WHERE userDni=:userDni")
     List<Insurance> findInsuranceByUser(final String userDni);
 

@@ -66,7 +66,7 @@ public class VehiculosFormNoSpinner extends AppCompatActivity implements View.On
             editTextPower.setText(extras.getString(QrCodeScanner.POWER));
         }
 
-        awesomeValidation.addValidation(this, R.id.editTextPlate, "^(([0-9]{4}[TRWAGMYFPDXBNJZSQVHLCKET]{3})|([TRWAGMYFPDXBNJZSQVHLCKET]{1,2}[0-9]{4}[TRWAGMYFPDXBNJZSQVHLCKET]{2}))$", R.string.plateerror);
+        awesomeValidation.addValidation(this, R.id.editTextPlate, "^(([0-9]{4}[A-Za-z]]{3})|([A-Za-z]{1,2}[0-9]{4}[A-Za-z]{2}))$", R.string.plateerror);
         awesomeValidation.addValidation(this, R.id.editTextDateFM, "^(19|20)\\d{2}$", R.string.FMerror);
         awesomeValidation.addValidation(this, R.id.editTextPower, "^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$", R.string.powererror);
         awesomeValidation.addValidation(this, R.id.editTextKM, "^-?\\d{1,19}$", R.string.KMerror);
@@ -77,45 +77,45 @@ public class VehiculosFormNoSpinner extends AppCompatActivity implements View.On
     }
 
     private void validateForm() {
-        if (!AppDatabase.getDatabase(this).carDao().getCar(editTextPlate.getText().toString()).isEmpty()) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Adding a car");
-            dialog.setMessage("The car with plate "+ editTextPlate.getText().toString() +" already exists, would you like to replace it?");
-            dialog.setCancelable(false);
-            dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogInterface, int id) {
-                    AppDatabase.getDatabase(getApplicationContext()).carDao().deleteCar(editTextPlate.getText().toString());
-                    submitForm();
-                }
-            });
-            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                }
-            });
-            dialog.show();
-        }
-        else {
-            submitForm();
+        if (awesomeValidation.validate()) {
+            if (!AppDatabase.getDatabase(this).carDao().getCar(editTextPlate.getText().toString()).isEmpty()) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Adding a car");
+                dialog.setMessage("The car with plate " + editTextPlate.getText().toString() + " already exists, would you like to replace it? All related insurances will be removed");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        AppDatabase.getDatabase(getApplicationContext()).insuranceDao().removeInsuranceByCar(editTextPlate.getText().toString());
+                        AppDatabase.getDatabase(getApplicationContext()).carDao().deleteCar(editTextPlate.getText().toString());
+                        submitForm();
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                dialog.show();
+            } else {
+                submitForm();
+            }
         }
     }
 
     private void submitForm(){
-        if (awesomeValidation.validate()) {
-            AppDatabase.getDatabase(this).carDao().
-                    addCar(new Car(editTextPlate.getText().toString(),
-                            editTextMaker.getText().toString(),
-                            editTextModel.getText().toString(),null,
-                            Long.parseLong(editTextDateFM.getText().toString()),null,
-                            editTextGas.getText().toString(),
-                            Double.parseDouble(editTextPower.getText().toString()),
-                            Long.parseLong(editTextKM.getText().toString()),
-                            editTextGarage.getText().toString(),
-                            Long.parseLong(editTextDoor.getText().toString())
-                            ));
-            setResult(Activity.RESULT_OK, new Intent());
-            finish();
-        }
+        AppDatabase.getDatabase(this).carDao().
+                addCar(new Car(editTextPlate.getText().toString(),
+                        editTextMaker.getText().toString(),
+                        editTextModel.getText().toString(),null,
+                        Long.parseLong(editTextDateFM.getText().toString()),null,
+                        editTextGas.getText().toString(),
+                        Double.parseDouble(editTextPower.getText().toString()),
+                        Long.parseLong(editTextKM.getText().toString()),
+                        editTextGarage.getText().toString(),
+                        Long.parseLong(editTextDoor.getText().toString())
+                        ));
+        setResult(Activity.RESULT_OK, new Intent());
+        finish();
     }
 
     @Override

@@ -33,8 +33,9 @@ import static pae.seguros.vehiculos.VehiculosFragment.CAM_REQUEST;
 public class AddVehicle extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 0;
-    private static final int QR_SCANNER = 0;
-    private static final int FORM = 1;
+    static final int CAM_REQUEST = 1;
+    private static final int FORM = 2;
+    private static final int QR_SCANNER = 3;
     private Uri mImageUri;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,

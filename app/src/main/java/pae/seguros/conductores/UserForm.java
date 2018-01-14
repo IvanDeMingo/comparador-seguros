@@ -63,7 +63,7 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
             else spinnerGender.setSelection(1);
         }
 
-        awesomeValidation.addValidation(this, R.id.editTextDNI, "^(([0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET])|([XYZ][0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]))$", R.string.dnierror);
+        awesomeValidation.addValidation(this, R.id.editTextDNI, "^(([0-9]{8}[A-Za-z])|([XYZ][0-9]{7}[A-Za-z]))$", R.string.dnierror);
         awesomeValidation.addValidation(this, R.id.editTextName, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.nameerror);
         awesomeValidation.addValidation(this, R.id.editTextSurname, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.surnameerror);
         awesomeValidation.addValidation(this, R.id.editTextLastname, "^[A-Za-zÁÉÍÓÚáéíóú\\s]{1,}[\\.]{0,1}[A-Za-zÁÉÍÓÚáéíóú\\s]{0,}$", R.string.lastnameerror);
@@ -75,49 +75,49 @@ public class UserForm extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void validateForm() {
-        if (!AppDatabase.getDatabase(this).userDao().getUser(editTextDNI.getText().toString()).isEmpty()) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Adding a driver");
-            dialog.setMessage("The driver with DNI "+ editTextDNI.getText().toString() +" already exists, would you like to replace it?");
-            dialog.setCancelable(false);
-            dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogInterface, int id) {
-                    AppDatabase.getDatabase(getApplicationContext()).userDao().deleteUser(editTextDNI.getText().toString());
-                    submitForm();
-                }
-            });
-            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                }
-            });
-            dialog.show();
-        }
-        else {
-            submitForm();
+        if (awesomeValidation.validate()) {
+            if (!AppDatabase.getDatabase(this).userDao().getUser(editTextDNI.getText().toString()).isEmpty()) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Adding a driver");
+                dialog.setMessage("The driver with DNI " + editTextDNI.getText().toString() + " already exists, would you like to replace it? All related insurances will be removed");
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int id) {
+                        AppDatabase.getDatabase(getApplicationContext()).insuranceDao().removeInsuranceByUser(editTextDNI.getText().toString());
+                        AppDatabase.getDatabase(getApplicationContext()).userDao().deleteUser(editTextDNI.getText().toString());
+                        submitForm();
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                dialog.show();
+            } else {
+                submitForm();
+            }
         }
     }
 
     private void submitForm(){
-        if (awesomeValidation.validate()) {
-            try {
-                String dateStr = editTextDob.getText().toString();
-                SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
-                Date dateObj = curFormater.parse(dateStr);
-                long unixTimestamp = dateObj.getTime() / 1000;
-                AppDatabase.getDatabase(this).userDao().
-                        addUser(new User(editTextDNI.getText().toString(),
-                                editTextName.getText().toString(),
-                                editTextSurname.getText().toString(),
-                                editTextLastname.getText().toString(),null,null,
-                                editTextPlace.getText().toString(),null,0,
-                                unixTimestamp,
-                                String.valueOf(spinnerGender.getSelectedItem()).equals("Male")));
-                setResult(Activity.RESULT_OK, new Intent());
-                finish();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        try {
+            String dateStr = editTextDob.getText().toString();
+            SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
+            Date dateObj = curFormater.parse(dateStr);
+            long unixTimestamp = dateObj.getTime() / 1000;
+            AppDatabase.getDatabase(this).userDao().
+                    addUser(new User(editTextDNI.getText().toString(),
+                            editTextName.getText().toString(),
+                            editTextSurname.getText().toString(),
+                            editTextLastname.getText().toString(),null,null,
+                            editTextPlace.getText().toString(),null,0,
+                            unixTimestamp,
+                            String.valueOf(spinnerGender.getSelectedItem()).equals("Male")));
+            setResult(Activity.RESULT_OK, new Intent());
+            finish();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
