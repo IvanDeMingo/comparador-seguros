@@ -2,6 +2,8 @@ package pae.seguros.vehiculos;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.io.File;
@@ -91,6 +94,38 @@ public class AddVehicle extends AppCompatActivity {
     public void clickManual(View view) {
         Intent intent = new Intent(this, VehiculosFormNoSpinner.class);
         startActivityForResult(intent, FORM);
+    }
+
+    public void clickInfoPhoto(View view) {
+        AlertDialog alertDialog = new AlertDialog.Builder(AddVehicle.this).create();
+        alertDialog.setTitle("Vehicle recognition");
+        alertDialog.setMessage("This option analyzes images of vehicles and responds with license plate data, as well as vehicle make and model type.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public void clickInfoQR(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final Activity activity = AddVehicle.this;
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        final View dialog = layoutInflater.inflate(R.layout.dialog_info_qr, null);
+
+        builder.setView(dialog)
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .setTitle("DGT QR sustainability sticker")
+                .create().show();
     }
 
     @Override

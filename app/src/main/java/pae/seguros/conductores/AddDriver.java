@@ -106,6 +106,44 @@ public class AddDriver extends AppCompatActivity {
         startActivityForResult(intent, FORM);
     }
 
+    public void clickInfoOCR(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final Activity activity = AddDriver.this;
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        final View dialog = layoutInflater.inflate(R.layout.dialog_info_ocr, null);
+
+        builder.setView(dialog)
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .setTitle("DNIe OCR")
+                .create().show();
+    }
+
+    public void clickInfoNFC(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final Activity activity = AddDriver.this;
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        final View dialog = layoutInflater.inflate(R.layout.dialog_info_nfc, null);
+
+        builder.setView(dialog)
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .setTitle("DNIe NFC")
+                .create().show();
+    }
+
     private void showErrorDialog(String message) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.error)

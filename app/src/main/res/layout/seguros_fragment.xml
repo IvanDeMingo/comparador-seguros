@@ -29,6 +29,7 @@
             android:layout_centerHorizontal="true"
             android:padding="5dp"
             android:layout_marginTop="30dp"
+            android:background="@null"
             android:src="@drawable/dashboard" />
 
         <TextView
