@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class VehiculosFormNoSpinner extends AppCompatActivity implements View.On
         editTextKM = (EditText) findViewById(R.id.editTextKM);
         editTextGarage = (EditText) findViewById(R.id.editTextGarage);
         editTextDoor = (EditText) findViewById(R.id.editTextDoor);
+
 
         buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
         buttonCancel = (Button) findViewById(R.id.buttonCancel);

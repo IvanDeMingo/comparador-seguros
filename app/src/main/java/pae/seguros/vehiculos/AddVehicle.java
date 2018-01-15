@@ -131,16 +131,18 @@ public class AddVehicle extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK)
-            finish();
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CAM_REQUEST) {
+                //setFragment(new OpenALRP());
+                Intent myIntent = new Intent(AddVehicle.this, OpenALRP.class);
+                startActivity(myIntent);
+            }
+            else finish();
+        }
         if (requestCode == QR_SCANNER && resultCode != QrCodeScanner.BACK) {
             Log.v("QR", "Successful scan");
         }
-        if (requestCode == CAM_REQUEST) {
-            //setFragment(new OpenALRP());
-            Intent myIntent = new Intent(AddVehicle.this, OpenALRP.class);
-            startActivity(myIntent);
-        }
+
 
     }
 

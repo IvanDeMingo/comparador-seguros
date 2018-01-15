@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,10 +22,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.File;
@@ -34,6 +38,7 @@ import pae.seguros.databases.AppDatabase;
 import pae.seguros.vehiculos.camera.Camera;
 import pae.seguros.vehiculos.camera.OpenALRP;
 
+import static android.content.ContentValues.TAG;
 import static pae.seguros.vehiculos.QrCodeScanner.AUTONOMY;
 import static pae.seguros.vehiculos.QrCodeScanner.CATEGORY;
 import static pae.seguros.vehiculos.QrCodeScanner.EMISSIONS_LVL_EUR;
@@ -53,6 +58,7 @@ public class VehiculosForm extends AppCompatActivity implements View.OnClickList
     private EditText editTextMatricula, editTextModel1, editTextModel2,editTextMarca1,editTextMarca2;
     private Spinner spinnerModel, spinnerMarca;
     private Button submit;
+    private ImageView image;
     private Uri mImageUri;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -75,7 +81,7 @@ public class VehiculosForm extends AppCompatActivity implements View.OnClickList
         spinnerMarca = (Spinner) findViewById(R.id.spinnerMarca);
         spinnerModel = (Spinner) findViewById(R.id.spinnerModel);
         submit = (Button) findViewById(R.id.buttonSubmit);
-
+        image = (ImageView) findViewById(R.id.imageView);
 
         Bundle parameters = getIntent().getExtras();
 
@@ -201,6 +207,9 @@ public class VehiculosForm extends AppCompatActivity implements View.OnClickList
                         listmarca.add(parameters.getString("smarca2"));
                 }
 
+                //Carreguem la imatge
+                Bitmap bitmap = BitmapFactory.decodeFile("/storage/emulated/0/gft_camera/images.jpg");
+                image.setImageBitmap(bitmap);
 
                 ArrayAdapter<String> adaptermarca = new ArrayAdapter<String>(this,
                         R.layout.support_simple_spinner_dropdown_item, listmarca);

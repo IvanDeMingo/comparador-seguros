@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.CircularProgressDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +65,9 @@ public class OpenALRP extends Activity {
     String Omarca2 = null, Smarca2 = null, Oconfmarca2 = null, Sconfmarca2 = null;
     String Omodel2 = null, Smodel2 = null, Oconfmodel2 = null, Sconfmodel2 = null;
     private boolean SighthoundFinished = false;
+    private boolean cancelresult = false;
     static final int CAM_REQUEST = 1;
+
 
 
 
@@ -77,6 +81,19 @@ public class OpenALRP extends Activity {
         dialog.setTitle("Loading");
         dialog.setProgressStyle(dialog.STYLE_SPINNER);
         dialog.show();
+        dialog.setOnKeyListener(new ProgressDialog.OnKeyListener(){
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                    dialog.dismiss();
+                    cancelresult = true;
+                }
+                return true;
+            }
+        });
 
         //API Sighthound
         new NetworkAsyncTask().execute();
@@ -233,7 +250,8 @@ public class OpenALRP extends Activity {
                     resultIntent.putExtra("sconfmodel2", SighthoundRes.get(8));
                 }
 
-                startActivityForResult(resultIntent,CAM_REQUEST);
+                //Si sha clicat back en el loading no es mostrara
+                if (!cancelresult) startActivityForResult(resultIntent,CAM_REQUEST);
                 OpenALRP.this.finish();
                 dialog.dismiss();
 
