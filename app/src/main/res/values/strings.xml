@@ -79,6 +79,7 @@
     <string name="dialog_nfc_text">The NFC technology can only be used in the 3.0 DNI to extract its information.</string>
     <string name="dialog_qr_text">The sustainability labels are stickers that the Spanish DGT sends, they indicate the classification of the vehicle according to its emissions. Reading its code we can extract information from the vehicle.</string>
     <string name="dialog_ocr_text">This option uses the device’s camera to read the OCR data on Spanish identity cards.</string>
+    <string name="insurance_title">Vehicle and car selected:</string>
 
 
 </resources>

@@ -1,124 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/selectedvehicle"
-        android:text="@string/vehicle_not_selected"
-        android:textSize="24sp"
-        android:paddingTop="12dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
-        android:id="@+id/selecteddriver"
-        android:text="@string/driver_not_selected"
-        android:textSize="24sp"
-        android:paddingTop="12dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
-        android:id="@+id/occasionalDrivers"
-        android:text="Occasional drivers:"
-        android:textSize="20sp"
-        android:paddingTop="12dp"/>
-
-    <pae.seguros.consultar_seguros.MultiSelectionSpinner
-        android:id="@+id/mySpinner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
-        android:id="@+id/companiaactual"
-        android:text="Select your current insurance company"
-        android:textSize="20sp"
-        android:paddingTop="12dp"/>
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/companiaactual"/>
-    />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-
-        android:id="@+id/partesano"
-        android:text="Number of compensation claims"
-        android:textSize="20sp"
-        android:paddingTop="12dp"/>
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="80px"
-
-        android:entries="@array/partesporano"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Year of Insurance renovation"
-        android:textSize="20sp"
-        android:paddingTop="12dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="2018"
-        android:id="@+id/yeartext"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="20sp"
-        android:paddingTop="12dp"/>
-
-    <SeekBar
-        android:id="@+id/yearseekbar"
-
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="90px"
-        android:max="52"
-        android:progress="1" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Select the type of insurance "
-        android:textSize="20sp"
-        android:paddingTop="12dp"/>
-
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="80px"
-
-        android:entries="@array/tiposeguro"
-        />
-
     <android.support.v7.widget.AppCompatButton
-
         android:id="@+id/calcularSeguroButton"
         android:text="search insurance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/custom_button"
         android:textColor="#ffffff"
         android:textSize="24sp"
@@ -126,7 +15,152 @@
         android:paddingTop="12dp"
         android:paddingEnd="36dp"
         android:paddingStart="36dp"
-        android:layout_margin="6dp"/>
+        android:layout_margin="6dp"
+        android:layout_alignParentBottom="true"/>
 
-</LinearLayout>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/calcularSeguroButton">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:padding="16dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/android_card_view_selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#69C4BB"
+                    android:elevation="4dp"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/insurance_title"
+                        android:id="@+id/title"
+                        android:textSize="24sp"
+                        android:layout_alignParentTop="true"/>
+
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="2dip"
+                        android:background="#fff"
+                        android:id="@+id/line"
+                        android:layout_below="@+id/title"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/selectedvehicle"
+                        android:text="@string/vehicle_not_selected"
+                        android:textSize="22sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/line"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/selecteddriver"
+                        android:text="@string/driver_not_selected"
+                        android:textSize="22sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_below="@+id/selectedvehicle"/>
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/occasionalDrivers"
+                android:text="Occasional drivers:"
+                android:textSize="20sp"
+                android:paddingTop="12dp"/>
+
+            <pae.seguros.consultar_seguros.MultiSelectionSpinner
+                android:id="@+id/mySpinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/companiaactual"
+                android:text="Select your current insurance company"
+                android:textSize="20sp"
+                android:paddingTop="12dp"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/companiaactual"/>
+            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/partesano"
+                android:text="Number of compensation claims"
+                android:textSize="20sp"
+                android:paddingTop="12dp"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="80px"
+
+                android:entries="@array/partesporano"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Year of Insurance renovation"
+                android:textSize="20sp"
+                android:paddingTop="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="2018"
+                android:id="@+id/yeartext"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="20sp"
+                android:paddingTop="12dp"/>
+
+            <SeekBar
+                android:id="@+id/yearseekbar"
+
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="90px"
+                android:max="52"
+                android:progress="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select the type of insurance "
+                android:textSize="20sp"
+                android:paddingTop="12dp"/>
+
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="80px"
+
+                android:entries="@array/tiposeguro"
+                />
+        </LinearLayout>
     </ScrollView>
+</RelativeLayout>
