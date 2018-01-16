@@ -68,7 +68,7 @@ public class VehiculosFormNoSpinner extends AppCompatActivity implements View.On
             editTextPower.setText(extras.getString(QrCodeScanner.POWER));
         }
 
-        awesomeValidation.addValidation(this, R.id.editTextPlate, "^(([0-9]{4}[A-Za-z]]{3})|([A-Za-z]{1,2}[0-9]{4}[A-Za-z]{2}))$", R.string.plateerror);
+        awesomeValidation.addValidation(this, R.id.editTextPlate, "^(([0-9]{4}[A-Za-z]{3})|([A-Za-z]{1,2}[0-9]{4}[A-Za-z]{2}))$", R.string.plateerror);
         awesomeValidation.addValidation(this, R.id.editTextDateFM, "^(19|20)\\d{2}$", R.string.FMerror);
         awesomeValidation.addValidation(this, R.id.editTextPower, "^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$", R.string.powererror);
         awesomeValidation.addValidation(this, R.id.editTextKM, "^-?\\d{1,19}$", R.string.KMerror);
