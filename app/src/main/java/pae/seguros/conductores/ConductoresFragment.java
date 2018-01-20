@@ -175,7 +175,7 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
         LayoutInflater layoutInflater = getLayoutInflater();
         final View dialog = layoutInflater.inflate(R.layout.nfc_dialog, null);
 
-        builder.setView(dialog)
+        AlertDialog d = builder.setView(dialog)
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -196,8 +196,18 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
                         dialogInterface.cancel();
                     }
                 })
+                .setNeutralButton(R.string.info, null)
                 .setTitle(R.string.nfc_dialog_title)
-                .create().show();
+                .create();
+
+        d.show();
+
+        d.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickInfoNFC(view);
+            }
+        });
     }
 
     private boolean checkNFCAvailable() {
@@ -230,5 +240,22 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
                 })
                 .create()
                 .show();
+    }
+
+    public void clickInfoNFC(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        final View dialog = layoutInflater.inflate(R.layout.dialog_info_nfc, null);
+
+        builder.setView(dialog)
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                })
+                .setTitle("DNIe NFC")
+                .create().show();
     }
 }

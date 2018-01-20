@@ -6,14 +6,21 @@
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:text="@string/dialog_nfc_text"
         android:paddingHorizontal="5dp"
-        android:layout_margin="24dp"/>
+        android:layout_margin="24dp"
+        android:layout_weight="1"/>
     <ImageView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
         android:id="@+id/dni_nfc"
-        android:src="@drawable/dni_nfc"/>
+        android:src="@drawable/dni_nfc"
+        android:layout_weight="5"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/info_can"
+        android:layout_weight="4"/>
 
 </LinearLayout>

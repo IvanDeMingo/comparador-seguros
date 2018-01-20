@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">Seguros</string>
-    <string name="consultar_seguro_tab0">Coche</string>
-    <string name="consultar_seguro_tab1">Conductor</string>
-    <string name="consultar_seguro_tab2">Condiciones</string>
+    <string name="app_name">Insurances Comparator</string>
     <string name="nuevo">NEW</string>
     <string name="foto">PHOTO</string>
     <string name="qr">QR</string>
@@ -12,17 +9,17 @@
     <string name="ocr">DNI OCR</string>
     <string name="nfc">Read DNI with NFC</string>
     <string name="can">CAN</string>
-    <string name="nfc_dialog_text">Introduzca el número CAN de su DNI. A continuación, pulse ACEPTAR y aproxime su DNI al chip NFC de su smartphone.</string>
-    <string name="aceptar">Accept</string>
+    <string name="nfc_dialog_text">Enter the CAN number and then click OK to read your DNIe 3.0.</string>
+    <string name="aceptar">OK</string>
     <string name="cancelar">Cancel</string>
     <string name="nfc_dialog_title">Read DNI with NFC</string>
     <string name="error">Error</string>
-    <string name="reading_dnie">Leyendo DNIe...</string>
-    <string name="can_incorrecto">El número CAN es incorrecto.</string>
-    <string name="error_dni_nfc">Ocurrió un error durante la lectura del DNIe.</string>
-    <string name="dnie_no_detectado">DNIe no detectado.</string>
-    <string name="nfc_no_activado">Active el NFC para poder leer su DNIe.</string>
-    <string name="sin_nfc">Su smartphone no tiene NFC.</string>
+    <string name="reading_dnie">Reading DNIe…</string>
+    <string name="can_incorrecto">The CAN number is incorrect.</string>
+    <string name="error_dni_nfc">An error occurred during the DNIe 3.0 reading.</string>
+    <string name="dnie_no_detectado">DNIe 3.0 not detected.</string>
+    <string name="nfc_no_activado">Enable NFC to read your DNIe 3.0.</string>
+    <string name="sin_nfc">Your smartphone doesn\'t have NFC.</string>
     <string name="vehiculos">Cars</string>
     <string name="seguros">Insurances</string>
     <string name="conductores">Drivers</string>
@@ -80,6 +77,7 @@
     <string name="dialog_qr_text">The sustainability labels are stickers that the Spanish DGT sends, they indicate the classification of the vehicle according to its emissions. Reading its code we can extract information from the vehicle.</string>
     <string name="dialog_ocr_text">This option uses the device’s camera to read the OCR data on Spanish identity cards.</string>
     <string name="insurance_title">Vehicle and car selected:</string>
+    <string name="info">Info</string>
 
 
 </resources>

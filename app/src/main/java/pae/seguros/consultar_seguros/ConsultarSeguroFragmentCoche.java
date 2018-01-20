@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import pae.seguros.R;
 import pae.seguros.vehiculos.AddVehicle;
@@ -29,7 +30,7 @@ public class ConsultarSeguroFragmentCoche extends ConsultarSeguroFragment {
     }
 
     private void initAddButton(View view) {
-        AppCompatButton buttonAdd = view.findViewById(R.id.button_add);
+        ImageView buttonAdd = view.findViewById(R.id.button_add);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -58,7 +58,7 @@ public class AddDriver extends AppCompatActivity {
         LayoutInflater layoutInflater = getLayoutInflater();
         final View dialog = layoutInflater.inflate(R.layout.nfc_dialog, null);
 
-        builder.setView(dialog)
+        AlertDialog d = builder.setView(dialog)
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -79,8 +79,18 @@ public class AddDriver extends AppCompatActivity {
                         dialogInterface.cancel();
                     }
                 })
+                .setNeutralButton(R.string.info, null)
                 .setTitle(R.string.nfc_dialog_title)
-                .create().show();
+                .create();
+
+        d.show();
+
+        d.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickInfoNFC(view);
+            }
+        });
     }
 
     private boolean checkNFCAvailable() {
