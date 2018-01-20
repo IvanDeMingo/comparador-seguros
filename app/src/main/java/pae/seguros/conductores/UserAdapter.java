@@ -40,8 +40,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.title.setText(String.valueOf(userList.get(position).dni));
-        holder.subtitle.setText(userList.get(position).name);
+        User user = userList.get(position);
+        holder.title.setText(String.format("%s %s %s", user.name, user.surname, user.lastname));
+        holder.subtitle.setText(user.dni);
         holder.photo.setImageResource(R.drawable.ic_conductor_icono2);
         if(selectedItem == position) holder.cv.setBackgroundColor(Color.parseColor("#ccff00"));
     }

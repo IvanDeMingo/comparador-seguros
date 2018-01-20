@@ -44,8 +44,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.title.setText(carList.get(position).plate);
-        holder.subtitle.setText(carList.get(position).model);
+        Car car = carList.get(position);
+        holder.title.setText(String.format("%s %s", car.company, car.model));
+        holder.subtitle.setText(car.plate);
         holder.photo.setImageResource(R.drawable.vehiculo_icono);
         if(selectedItem == position) holder.cv.setBackgroundColor(Color.parseColor("#ccff00"));
     }

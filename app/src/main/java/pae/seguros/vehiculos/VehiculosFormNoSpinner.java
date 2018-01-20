@@ -107,8 +107,8 @@ public class VehiculosFormNoSpinner extends AppCompatActivity implements View.On
     private void submitForm(){
         AppDatabase.getDatabase(this).carDao().
                 addCar(new Car(editTextPlate.getText().toString(),
-                        editTextMaker.getText().toString(),
-                        editTextModel.getText().toString(),null,
+                        editTextModel.getText().toString(),
+                        editTextMaker.getText().toString(),null,
                         Long.parseLong(editTextDateFM.getText().toString()),null,
                         editTextGas.getText().toString(),
                         Double.parseDouble(editTextPower.getText().toString()),
