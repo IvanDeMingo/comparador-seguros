@@ -52,6 +52,8 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryLight));
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.seguros);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -63,14 +65,8 @@ public class Dashboard extends AppCompatActivity {
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.seguros);
 
-        SharedPreferences prefe=getSharedPreferences("data", Context.MODE_PRIVATE);
-        if (prefe.getString("wasLaunched","false").equals("false")) {
-            SharedPreferences.Editor editor=prefe.edit();
-            editor.putString("wasLaunched", "true");
-            editor.commit();
-            Intent introIntent = new Intent(this, IntroActivity.class);
-            startActivity(introIntent);
-        }
+        Intent introIntent = new Intent(this, IntroActivity.class);
+        startActivity(introIntent);
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

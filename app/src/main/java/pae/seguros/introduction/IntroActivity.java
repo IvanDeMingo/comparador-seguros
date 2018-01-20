@@ -17,6 +17,9 @@ public class IntroActivity extends AppIntro {
         addSlide(IntroFragment.newInstance(R.layout.intro_slide_1));
         addSlide(IntroFragment.newInstance(R.layout.intro_slide_2));
         addSlide(IntroFragment.newInstance(R.layout.intro_slide_3));
+
+        setSkipText(getString(R.string.skip));
+        setDoneText(getString(R.string.done));
     }
 
     @Override

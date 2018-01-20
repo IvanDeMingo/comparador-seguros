@@ -13,16 +13,17 @@
         android:layout_weight="1"
         android:text="@string/intro_slide_2_title"
         android:id="@+id/intro_slide_2_title"
-        android:textSize="28sp"
+        android:textSize="30sp"
         android:textColor="@android:color/white"
         android:gravity="center"
+        android:textStyle="bold"
         />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:src="@drawable/car"
+        android:src="@drawable/intro_2"
         />
 
     <TextView
@@ -34,6 +35,7 @@
         android:textColor="@android:color/white"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
+        android:textSize="16sp"
         />
 
 </LinearLayout>

@@ -67,17 +67,19 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
-    <string name="intro_slide_1_title">Comparador de seguros</string>
-    <string name="intro_slide_1_description">Compara seguros de coche rápida y fácilmente.</string>
-    <string name="intro_slide_2_title">Registra vehículos</string>
-    <string name="intro_slide_2_description">Guarda la información de tus vehículos haciéndoles una fotografía o escaneando el código QR de la etiqueta de sostenibilidad de la DGT.</string>
-    <string name="intro_slide_3_title">Registra conductores</string>
-    <string name="intro_slide_3_description">Almacena información de los conductores que conducirán tus vehículos haciendo una fotografía a sus DNIs o leyéndolos con NFC.</string>
+    <string name="intro_slide_1_title">Insurances comparator</string>
+    <string name="intro_slide_1_description">Compare the prices of the most popular car insurances without using your keyboard, in three simple steps.</string>
+    <string name="intro_slide_2_title">Register cars</string>
+    <string name="intro_slide_2_description">Take a picture of your car or read a QR code to get its information.</string>
+    <string name="intro_slide_3_title">Register drivers</string>
+    <string name="intro_slide_3_description">Obtain the information of the driver with a simple picture or scanning his DNI.</string>
     <string name="dialog_nfc_text">The NFC technology can only be used in the 3.0 DNI to extract its information.</string>
     <string name="dialog_qr_text">The sustainability labels are stickers that the Spanish DGT sends, they indicate the classification of the vehicle according to its emissions. Reading its code we can extract information from the vehicle.</string>
     <string name="dialog_ocr_text">This option uses the device’s camera to read the OCR data on Spanish identity cards.</string>
-    <string name="insurance_title">Vehicle and car selected:</string>
+    <string name="insurance_title">Car and driver selected:</string>
     <string name="info">Info</string>
+    <string name="skip">Skip</string>
+    <string name="done">Done</string>
 
 
 </resources>
