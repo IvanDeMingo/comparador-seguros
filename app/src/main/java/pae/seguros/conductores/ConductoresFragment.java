@@ -87,10 +87,10 @@ public class ConductoresFragment extends Fragment implements View.OnClickListene
 
         if (!visibleFAB) {
             fab.setVisibility(View.INVISIBLE);
-            mAdapter = new UserAdapter(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser(),true);
+            mAdapter = new UserAdapter(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser(),true, getContext());
         }
         else
-            mAdapter = new UserAdapter(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser(),false);
+            mAdapter = new UserAdapter(AppDatabase.getDatabase(ConductoresFragment.this.getContext()).userDao().getAllUser(),false, getContext());
         mRecyclerView.setAdapter(mAdapter);
 
 

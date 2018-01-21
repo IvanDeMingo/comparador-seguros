@@ -37,7 +37,7 @@ public class InsuranceAdapter extends RecyclerView.Adapter<InsuranceAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(insuranceList.get(position).carPlate);
         holder.subtitle.setText(String.valueOf(insuranceList.get(position).userDni));
-        holder.photo.setImageResource(R.drawable.ic_seguro_icono);
+        holder.photo.setImageResource(R.drawable.ic_insurance_color);
     }
 
 

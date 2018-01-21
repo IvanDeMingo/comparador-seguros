@@ -98,9 +98,9 @@ public class VehiculosFragment extends Fragment implements View.OnClickListener 
         mRecyclerView.setLayoutManager(layoutManager);
         if (!visibleFAB) {
             fab.setVisibility(View.INVISIBLE);
-            mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars(),true);
+            mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars(),true, getContext());
         }
-        else mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars(),false);
+        else mAdapter = new CarAdapter(AppDatabase.getDatabase(VehiculosFragment.this.getContext()).carDao().getAllCars(),false, getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -80,6 +80,8 @@
     <string name="info">Info</string>
     <string name="skip">Skip</string>
     <string name="done">Done</string>
+    <string name="no_insurances_title">You have not registered any insurance</string>
+    <string name="no_insurances_subtitle">Create your insurance now</string>
 
 
 </resources>

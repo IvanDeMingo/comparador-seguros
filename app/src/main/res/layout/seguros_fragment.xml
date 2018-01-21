@@ -19,6 +19,57 @@
         android:src="@drawable/agregar_icono"
         app:fabSize="normal"
         android:clickable="true"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:src="@drawable/ic_file"
+            android:id="@+id/empty_image"
+            android:alpha="0.8"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/empty_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_insurances_title"
+                android:gravity="center_horizontal"
+                android:textColor="@color/colorPrimaryText"
+                android:layout_margin="10dp"
+                android:alpha="0.8"/>
+
+            <TextView
+                android:id="@+id/empty_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/no_insurances_subtitle"
+                android:textColor="@color/colorSecondaryText"
+                android:alpha="0.8"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,7 +81,7 @@
             android:padding="5dp"
             android:layout_marginTop="30dp"
             android:background="@null"
-            android:src="@drawable/dashboard" />
+            android:src="@drawable/ic_file" />
 
         <TextView
             android:id="@+id/empty_text"
@@ -53,5 +104,6 @@
             android:textSize="18sp"
             android:text="Create your insurance now" />
     </RelativeLayout>
+    -->
 
 </android.support.design.widget.CoordinatorLayout>

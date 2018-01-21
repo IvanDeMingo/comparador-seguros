@@ -1,5 +1,6 @@
 package pae.seguros.conductores;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +21,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     List<User> userList;
     private int selectedItem;
     Boolean highlighted;
+    private Context mContext;
 
-    UserAdapter(List<User> userList, Boolean highlighted){
+    UserAdapter(List<User> userList, Boolean highlighted, Context context){
         this.userList = userList;
         selectedItem = -1;
         this.highlighted = highlighted;
+        mContext = context;
     }
 
     public User getSelectedItem() {
@@ -43,7 +46,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         User user = userList.get(position);
         holder.title.setText(String.format("%s %s %s", user.name, user.surname, user.lastname));
         holder.subtitle.setText(user.dni);
-        holder.photo.setImageResource(R.drawable.ic_conductor_icono2);
+        holder.photo.setImageResource(R.drawable.ic_users_color);
         if(selectedItem == position) holder.cv.setBackgroundColor(Color.parseColor("#ccff00"));
     }
 
@@ -75,7 +78,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             }
             else if (selectedItem < 0){
                 selectedItem = getAdapterPosition();
-                cv.setBackgroundColor(Color.parseColor("#ccff00"));
+                cv.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryLight));
             }
             else {
                 Toast.makeText(v.getContext(), "You have already selected a driver, first deselect him to be able to choose another",

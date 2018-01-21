@@ -3,19 +3,19 @@
 
     <item
         android:id="@+id/vehiculos"
-        android:icon="@drawable/vehiculo_icono"
+        android:icon="@drawable/ic_car"
         android:title="@string/vehiculos"
         android:enabled="true"/>
 
     <item
         android:id="@+id/seguros"
-        android:icon="@drawable/ic_seguro_icono"
+        android:icon="@drawable/ic_insurance"
         android:title="@string/seguros"
         android:enabled="true"/>
 
     <item
         android:id="@+id/conductores"
-        android:icon="@drawable/ic_conductor_icono2"
+        android:icon="@drawable/ic_users"
         android:title="@string/conductores"
         android:enabled="true"/>
 
