@@ -52,8 +52,6 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
 
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryLight));
-
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.seguros);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
