@@ -272,9 +272,9 @@ public class VehiculosForm extends AppCompatActivity implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            //setFragment(new OpenALRP());
-            //Intent myIntent = new Intent(VehiculosForm.this,OpenALRP.class);
-            //startActivity(myIntent);
+            Intent resultIntent = new Intent();
+            setResult(resultCode, resultIntent);
+            finish();
         }
     }
 
